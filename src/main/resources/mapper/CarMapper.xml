@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.CarMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Car">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PLATE_NUMBER" jdbcType="VARCHAR" property="plateNumber" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="CAR_PROPERTIES" jdbcType="VARCHAR" property="carProperties" />
+    <result column="PLATE_TYPE" jdbcType="VARCHAR" property="plateType" />
+    <result column="PLATE_PROPERTIES" jdbcType="VARCHAR" property="plateProperties" />
+    <result column="LOAD_MAX" jdbcType="VARCHAR" property="loadMax" />
+    <result column="VOLUME_MAX" jdbcType="VARCHAR" property="volumeMax" />
+    <result column="CURRENT_DRIVER" jdbcType="VARCHAR" property="currentDriver" />
+    <result column="CURRENT_DRIVER_PHONE" jdbcType="VARCHAR" property="currentDriverPhone" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+  </resultMap>
+</mapper>

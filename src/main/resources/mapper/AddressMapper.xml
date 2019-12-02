@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Address">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="CREATED_DATE" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="CREATED_BY" jdbcType="INTEGER" property="createdBy" />
+    <result column="LAST_MODIFIED_DATE" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="LAST_MODIFIED_BY" jdbcType="INTEGER" property="lastModifiedBy" />
+    <result column="ENTERPRISE_NAME" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="ADDRESS_TYPE" jdbcType="VARCHAR" property="addressType" />
+    <result column="AREA" jdbcType="VARCHAR" property="area" />
+    <result column="DETAILED_ADDRESS" jdbcType="VARCHAR" property="detailedAddress" />
+  </resultMap>
+</mapper>
