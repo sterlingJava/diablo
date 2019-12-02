@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <properties resource="application-dev.properties"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!--插件-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+        </plugin>
+
+        <!--数据源-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL= "${spring.datasource.url}"
+                        userId = "${spring.datasource.username}"
+                        password="${spring.datasource.password}"/>
+        <!--DO生成-->
+        <javaModelGenerator targetPackage="com.ylzy56.diablo.domain"
+                            targetProject="src/main/java"/>
+        <!--mapper xml文件-->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources"/>
+        <!--mapper接口文件-->
+        <javaClientGenerator targetPackage="com.ylzy56.diablo.dao"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+
+        <!--<table tableName="%">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+        <table tableName="enterprise">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!--<table tableName="role">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="users_role">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="permission">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="role_permission">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>-->
+
+    </context>
+</generatorConfiguration>

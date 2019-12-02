@@ -1,0 +1,32 @@
+23:18:45.608 logback [main] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.ylzy56.diablo]' package. Please check your configuration.
+23:18:45.936 logback [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$16f90904] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+23:18:46.289 logback [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+23:18:46.310 logback [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+23:18:46.322 logback [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+23:18:46.322 logback [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.27]
+23:18:46.480 logback [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+23:18:46.480 logback [main] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2401 ms
+23:18:47.947 logback [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+23:18:48.119 logback [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+23:18:48.268 logback [main] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+23:18:48.269 logback [main] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+23:18:48.270 logback [main] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+23:18:48.270 logback [main] INFO  t.m.m.a.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
+23:18:48.425 logback [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Context refreshed
+23:18:48.451 logback [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+23:18:48.501 logback [main] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
+23:18:48.734 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_1
+23:18:48.736 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_1
+23:18:48.741 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_1
+23:18:48.751 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_1
+23:18:48.761 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_1
+23:18:48.775 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_2
+23:18:48.780 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_2
+23:18:48.782 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_2
+23:18:48.788 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_2
+23:18:48.793 logback [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_2
+23:18:48.816 logback [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+23:18:48.851 logback [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+23:18:57.781 logback [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+23:18:57.781 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+23:18:57.798 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 17 ms

@@ -1,0 +1,1 @@
+14:55:58.707 logback [Thread-680] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'

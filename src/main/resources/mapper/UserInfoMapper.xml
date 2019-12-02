@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.EUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+  </resultMap>
+</mapper>

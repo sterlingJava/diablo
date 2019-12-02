@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.EnterpriseMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Enterprise">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="license_number" jdbcType="VARCHAR" property="licenseNumber" />
+    <result column="license_pic" jdbcType="VARCHAR" property="licensePic" />
+    <result column="fixed_assets" jdbcType="VARCHAR" property="fixedAssets" />
+    <result column="registered_assets" jdbcType="VARCHAR" property="registeredAssets" />
+    <result column="annual_turnover" jdbcType="VARCHAR" property="annualTurnover" />
+    <result column="corp_name" jdbcType="VARCHAR" property="corpName" />
+    <result column="corp_idnum" jdbcType="VARCHAR" property="corpIdnum" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+</mapper>

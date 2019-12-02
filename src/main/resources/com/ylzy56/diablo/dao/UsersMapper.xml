@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.UsersMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Users">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <collection property="roles" ofType="com.ylzy56.diablo.domain.Role">
+      <id column="role_id" jdbcType="INTEGER" property="roleId" />
+      <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+      <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    </collection>
+  </resultMap>
+  <select id="findAll" resultMap="BaseResultMap">
+    select u.*,r.role_id,r.role_name,r.role_desc from users u
+    left outer join users_role ur  on u.user_id = ur.user_id
+    left outer join role r on r.role_id = ur.role_id
+  </select>
+  <select id="findById" resultMap="BaseResultMap" parameterType="int">
+    SELECT u.*,r.role_id,r.role_name,r.role_desc FROM users u
+    LEFT OUTER JOIN users_role ur  ON u.user_id = ur.user_id
+    LEFT OUTER JOIN role r ON r.role_id = ur.role_id
+    WHERE u.user_id=#{id}
+  </select>
+</mapper>
