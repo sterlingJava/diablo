@@ -1,6 +1,8 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Enterprise;
+import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.EnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,5 +79,20 @@ public class EnterpriseController {
     @ApiOperation(value = "审核企业信息")
     public String updateStatus(int enterpriseId,String status){
         return enterpriseService.updateStatus(enterpriseId,status)==0 ? "审核企业失败":"审核企业完成";
+    }
+
+    /**
+     * 分页条件查询企业列表
+     * @return
+     */
+    @GetMapping("/searchPage")
+    @ApiOperation(value = "分页条件查询企业列表")
+    public PageResult searchPage(Condition condition,int  pageNum, int pageSize){
+        try {
+            return enterpriseService.searchPage(condition,pageNum,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

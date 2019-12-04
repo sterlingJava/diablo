@@ -1,12 +1,18 @@
 package com.ylzy56.diablo.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.EnterpriseMapper;
 import com.ylzy56.diablo.dao.UserInfoMapper;
 import com.ylzy56.diablo.domain.Enterprise;
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.EnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.List;
 
@@ -92,5 +98,22 @@ public class EnterpriseServiceImpl implements EnterpriseService {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    @Override
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtil.isEmpty(condition.getKeyword())) {
+            criteria.orLike("name", "%" + condition.getKeyword() + "%");
+            criteria.orLike("type", "%" + condition.getKeyword() + "%");
+        }
+        if (!StringUtil.isEmpty(condition.getStatus())){
+            criteria.andEqualTo("status",condition.getStatus());
+        }
+        criteria.andEqualTo("isDel",0);
+        Page<Enterprise> page = (Page<Enterprise>) enterpriseDao.selectByExample(example);
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

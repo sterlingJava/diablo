@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.*;
 import com.ylzy56.diablo.domain.*;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.PermissionService;
 import com.ylzy56.diablo.service.RoleService;
@@ -11,6 +12,7 @@ import com.ylzy56.diablo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.List;
 
@@ -147,13 +149,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        if (keyword != null && keyword.length() > 0) {
-            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
+        if (!StringUtil.isEmpty(condition.getKeyword())) {
+            criteria.orLike("username", "%" + condition.getKeyword() + "%");
+            criteria.orLike("mobile", "%" + condition.getKeyword() + "%");
         }
+        if (!StringUtil.isEmpty(condition.getStatus())){
+            criteria.andEqualTo("status",condition.getStatus());
+        }
+        criteria.andEqualTo("isDel",0);
         Page<UserInfo> page = (Page<UserInfo>) userDao.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
     }

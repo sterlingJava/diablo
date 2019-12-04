@@ -1,73 +1,58 @@
-11:47:00.302 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-11:47:00.322 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-11:47:00.323 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-11:47:00.330 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.27]
-11:47:00.417 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-11:47:00.417 logback [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 2280 ms
-11:47:02.136 logback [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-11:47:02.308 logback [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
-11:47:02.327 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-11:47:02.478 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
-11:47:02.478 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
-11:47:02.478 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
-11:47:02.478 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
-11:47:02.697 logback [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Context refreshed
-11:47:02.699 logback [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
-11:47:02.713 logback [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
-11:47:02.755 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_1
-11:47:02.764 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_1
-11:47:02.767 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_1
-11:47:02.786 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_1
-11:47:02.795 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_1
-11:47:02.803 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_2
-11:47:02.807 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_2
-11:47:02.813 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_2
-11:47:02.843 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_2
-11:47:02.881 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_2
-11:47:02.935 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_3
-11:47:02.980 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_3
-11:47:02.989 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_3
-11:47:03.024 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_3
-11:47:03.035 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-11:47:03.052 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-11:47:03.544 logback [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-11:47:03.545 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-11:47:03.552 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 7 ms
-11:47:05.188 logback [Thread-318] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
-11:47:06.917 logback [restartedMain] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.ylzy56.diablo]' package. Please check your configuration.
-11:47:06.938 logback [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$fe3e701f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-11:47:07.055 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
-11:47:07.056 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-11:47:07.056 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-11:47:07.056 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.27]
-11:47:07.085 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-11:47:07.085 logback [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 964 ms
-11:47:07.636 logback [restartedMain] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-11:47:07.767 logback [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
-11:47:07.780 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-11:47:07.812 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
-11:47:07.812 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
-11:47:07.812 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
-11:47:07.812 logback [restartedMain] INFO  t.m.m.a.MapperCacheDisabler - Clear EntityHelper entityTableMap cache.
-11:47:07.904 logback [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Context refreshed
-11:47:07.905 logback [restartedMain] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
-11:47:07.915 logback [restartedMain] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
-11:47:07.938 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_1
-11:47:07.946 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_1
-11:47:07.947 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_1
-11:47:07.958 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_1
-11:47:07.962 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_1
-11:47:07.966 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_2
-11:47:07.968 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_2
-11:47:07.969 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_2
-11:47:07.977 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingGET_2
-11:47:07.980 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_2
-11:47:07.986 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_3
-11:47:07.988 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findAllUsingGET_3
-11:47:07.990 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: findByIdUsingGET_3
-11:47:07.998 logback [restartedMain] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingGET_3
-11:47:08.003 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
-11:47:08.006 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
-11:47:17.754 logback [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-11:47:17.756 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-11:47:17.762 logback [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+11:27:08.881 logback [http-nio-8080-exec-7] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalStateException: Optional int parameter 'pageNum' is present but cannot be translated into a null value due to being declared as a primitive type. Consider declaring it as object wrapper for the corresponding primitive type.] with root cause
+java.lang.IllegalStateException: Optional int parameter 'pageNum' is present but cannot be translated into a null value due to being declared as a primitive type. Consider declaring it as object wrapper for the corresponding primitive type.
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.handleNullValue(AbstractNamedValueMethodArgumentResolver.java:246)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:116)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:127)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:167)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:893)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:798)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:94)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:526)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:861)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1579)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)

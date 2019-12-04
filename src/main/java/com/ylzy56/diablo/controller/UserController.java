@@ -1,6 +1,7 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.UserService;
@@ -57,10 +58,10 @@ public class UserController {
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页查询用户列表")
-    public PageResult searchPage(String keyword,int pageNum, int pageSize){
+    @ApiOperation(value = "分页条件查询用户列表")
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
         try {
-            return userService.searchPage(keyword,pageNum,pageSize);
+            return userService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -144,10 +145,10 @@ public class UserController {
     public Result addRoleToUser(int userId,int roleId){
         try {
             userService.addRoleToUser(userId,roleId);
-            return new Result(true,"删除用户成功");
+            return new Result(true,"添加角色成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除用户成功");
+            return new Result(true,"添加角色失败");
         }
     }
 
@@ -161,10 +162,10 @@ public class UserController {
     public Result deleteRoleFromUser(int userId,int roleId){
         try {
             userService.deleteRoleFromUser(userId,roleId);
-            return new Result(true,"删除用户成功");
+            return new Result(true,"删除角色成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除用户成功");
+            return new Result(true,"删除角色失败");
         }
     }
 }
