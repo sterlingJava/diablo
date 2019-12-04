@@ -26,8 +26,8 @@ public class Swagger2Configuration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("xxx接口文档")
-                .description("xxx相关接口的文档")
+                .title("diablo接口文档")
+                .description("diablo相关接口的文档")
                 .termsOfServiceUrl("http://www.xxx.com")
                 .version("1.0")
                 .build();
