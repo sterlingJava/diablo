@@ -1,11 +1,14 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.entity.PageResult;
+import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +29,42 @@ public class UserController {
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有用户列表")
     public List<UserInfo> findAll(){
-        return userService.findAll();
+        try {
+            return userService.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 分页查询用户列表
+     * @return
+     */
+    @GetMapping("/findPage")
+    @ApiOperation(value = "分页查询用户列表")
+    public PageResult findPage(int pageNum, int pageSize){
+        try {
+            return userService.findPage(pageNum,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 分页条件查询用户列表
+     * @return
+     */
+    @GetMapping("/searchPage")
+    @ApiOperation(value = "分页查询用户列表")
+    public PageResult searchPage(String keyword,int pageNum, int pageSize){
+        try {
+            return userService.searchPage(keyword,pageNum,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -37,7 +75,12 @@ public class UserController {
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定用户信息")
     public UserInfo findById(int userId){
-        return userService.findById(userId);
+        try {
+            return userService.findById(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -45,10 +88,16 @@ public class UserController {
      * @param userInfo
      * @return
      */
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation(value = "添加用户")
-    public String save(UserInfo userInfo){
-        return userService.save(userInfo)==0?"添加用户失败":"添加用户成功";
+    public Result save(UserInfo userInfo){
+        try {
+            userService.save(userInfo);
+            return new Result(true,"添加用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"添加用户失败");
+        }
     }
 
     /**
@@ -58,8 +107,14 @@ public class UserController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除用户")
-    public String delete(int userId){
-        return userService.delete(userId)==0?"删除用户失败":"删除用户成功";
+    public Result delete(int userId){
+        try {
+            userService.delete(userId);
+            return new Result(true,"删除用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"删除用户失败");
+        }
     }
 
     /**
@@ -69,8 +124,14 @@ public class UserController {
      */
     @GetMapping("/update")
     @ApiOperation(value = "更新用户")
-    public String update(UserInfo userInfo){
-        return userService.update(userInfo)==0?"更新用户失败":"更新用户成功";
+    public Result update(UserInfo userInfo){
+        try {
+            userService.update(userInfo);
+            return new Result(true,"更新用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"更新用户失败");
+        }
     }
 
     /**
@@ -80,8 +141,14 @@ public class UserController {
      */
     @GetMapping("/addRoleToUser")
     @ApiOperation(value = "给指定用户添加角色")
-    public String addRoleToUser(int userId,int roleId){
-        return userService.addRoleToUser(userId,roleId)==0?"添加权限失败":"添加权限成功";
+    public Result addRoleToUser(int userId,int roleId){
+        try {
+            userService.addRoleToUser(userId,roleId);
+            return new Result(true,"删除用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"删除用户成功");
+        }
     }
 
     /**
@@ -91,7 +158,13 @@ public class UserController {
      */
     @GetMapping("/deleteRoleFromUser")
     @ApiOperation(value = "给指定用户删除角色")
-    public String deleteRoleFromUser(int userId,int roleId){
-        return userService.deleteRoleFromUser(userId,roleId)==0?"删除权限失败":"删除权限成功";
+    public Result deleteRoleFromUser(int userId,int roleId){
+        try {
+            userService.deleteRoleFromUser(userId,roleId);
+            return new Result(true,"删除用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"删除用户成功");
+        }
     }
 }

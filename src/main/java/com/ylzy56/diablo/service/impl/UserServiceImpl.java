@@ -1,14 +1,17 @@
 package com.ylzy56.diablo.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.*;
 import com.ylzy56.diablo.domain.*;
+import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.PermissionService;
 import com.ylzy56.diablo.service.RoleService;
 import com.ylzy56.diablo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,13 +38,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserInfo> findAll() {
-        List<UserInfo> usersList = null;
-        try {
-            usersList = userDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return usersList;
+        return userDao.selectAll();
     }
 
     /**
@@ -52,22 +49,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserInfo findById(int userId) {
-        UserInfo userInfo = null;
-        try {
-            //1.根据用户id查询用户信息
-            userInfo = userDao.selectByPrimaryKey(userId);
-            //2.根据用户id查询用包含的角色列表
-            List<Role> roleList = roleService.findRolesByUserId(userId);
-            //3.遍历角色列表,根据角色id查询出包含的权限信息
-            for (Role role : roleList) {
-                List<Permission> permissionList = permissionService.findPermissionsByRoleId(role.getRoleId());
-                role.setPermissions(permissionList);
-            }
-            if (userInfo != null) {
-                userInfo.setRoles(roleList);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        //1.根据用户id查询用户信息
+        UserInfo userInfo = userDao.selectByPrimaryKey(userId);
+        //2.根据用户id查询用包含的角色列表
+        List<Role> roleList = roleService.findRolesByUserId(userId);
+        //3.遍历角色列表,根据角色id查询出包含的权限信息
+        for (Role role : roleList) {
+            List<Permission> permissionList = permissionService.findPermissionsByRoleId(role.getRoleId());
+            role.setPermissions(permissionList);
+        }
+        if (userInfo != null) {
+            userInfo.setRoles(roleList);
         }
         return userInfo;
     }
@@ -79,13 +72,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int save(UserInfo userInfo) {
-        try {
-            return userDao.insert(userInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void save(UserInfo userInfo) {
+        userDao.insert(userInfo);
     }
 
     /**
@@ -95,18 +83,14 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int delete(int userId) {
-        try {
-            //1.删除用户角色关联表信息
-            UserRoleDao.delete(new UserRole() {{
-                setUserId(userId);
-            }});
-            //2.删除用户信息
-            return userDao.deleteByPrimaryKey(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void delete(int userId) {
+        //1.删除用户角色关联表信息
+        UserRoleDao.delete(new UserRole() {{
+            setUserId(userId);
+        }});
+        //2.删除用户信息
+        userDao.deleteByPrimaryKey(userId);
+
     }
 
     /**
@@ -116,13 +100,10 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int update(UserInfo userInfo) {
-        try {
-            return userDao.updateByPrimaryKey(userInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void update(UserInfo userInfo) {
+
+        userDao.updateByPrimaryKey(userInfo);
+
     }
 
     /**
@@ -133,17 +114,14 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int addRoleToUser(int userId, int roleId) {
-        try {
-            //在用户角色关联表插入一条记录
-            UserRole userRole = new UserRole();
-            userRole.setUserId(userId);
-            userRole.setRoleId(roleId);
-            return UserRoleDao.insert(userRole);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void addRoleToUser(int userId, int roleId) {
+
+        //在用户角色关联表插入一条记录
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId(roleId);
+        UserRoleDao.insert(userRole);
+
     }
 
     /**
@@ -154,15 +132,29 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public int deleteRoleFromUser(int userId, int roleId) {
-        try {
-            UserRole userRole = new UserRole();
-            userRole.setUserId(userId);
-            userRole.setRoleId(roleId);
-            return UserRoleDao.delete(userRole);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+    public void deleteRoleFromUser(int userId, int roleId) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        userRole.setRoleId(roleId);
+        UserRoleDao.delete(userRole);
+    }
+
+    @Override
+    public PageResult findPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<UserInfo> page = (Page<UserInfo>) userDao.selectAll();
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (keyword != null && keyword.length() > 0) {
+            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
         }
+        Page<UserInfo> page = (Page<UserInfo>) userDao.selectByExample(example);
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

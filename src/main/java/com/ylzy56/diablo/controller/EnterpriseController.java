@@ -2,7 +2,6 @@ package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Enterprise;
 import com.ylzy56.diablo.service.EnterpriseService;
-import com.ylzy56.diablo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
