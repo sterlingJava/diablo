@@ -1,8 +1,13 @@
 package com.ylzy56.diablo.domain;
 
+import lombok.Data;
+
 import java.util.Date;
 import javax.persistence.*;
 
+@Data
+@Table(name = "address")
+@Entity
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,216 +26,47 @@ public class Address {
     private Integer lastModifiedBy;
 
     /**
-     * ¹«Ë¾Ãû³Æ
+     * å…¬å¸åç§°
      */
     @Column(name = "ENTERPRISE_NAME")
     private String enterpriseName;
 
     /**
-     * ÁªÏµÈË
+     * è”ç³»äºº
      */
     @Column(name = "LINKMAN")
     private String linkman;
 
     /**
-     * ÁªÏµµç»°
+     * æ‰‹æœº
      */
     @Column(name = "PHONE")
     private String phone;
 
     /**
-     * µØÖ·ÀàĞÍ
+     * ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "ADDRESS_TYPE")
     private String addressType;
 
     /**
-     * ËùÔÚµØÇø
+     * åœ°åŒº
      */
     @Column(name = "AREA")
     private String area;
 
     /**
-     * ÏêÏ¸µØÖ·
+     * è¯¦ç»†åœ°å€
      */
     @Column(name = "DETAILED_ADDRESS")
     private String detailedAddress;
 
-    /**
-     * @return id
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Column(name = "CREATED")
+    private String created;
 
-    /**
-     * @return CREATED_DATE
-     */
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+    @Column(name = "ISDEL")
+    private String isDel;
 
-    /**
-     * @param createdDate
-     */
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 
-    /**
-     * @return CREATED_BY
-     */
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    /**
-     * @param createdBy
-     */
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    /**
-     * @return LAST_MODIFIED_DATE
-     */
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    /**
-     * @param lastModifiedDate
-     */
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    /**
-     * @return LAST_MODIFIED_BY
-     */
-    public Integer getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    /**
-     * @param lastModifiedBy
-     */
-    public void setLastModifiedBy(Integer lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    /**
-     * »ñÈ¡¹«Ë¾Ãû³Æ
-     *
-     * @return ENTERPRISE_NAME - ¹«Ë¾Ãû³Æ
-     */
-    public String getEnterpriseName() {
-        return enterpriseName;
-    }
-
-    /**
-     * ÉèÖÃ¹«Ë¾Ãû³Æ
-     *
-     * @param enterpriseName ¹«Ë¾Ãû³Æ
-     */
-    public void setEnterpriseName(String enterpriseName) {
-        this.enterpriseName = enterpriseName;
-    }
-
-    /**
-     * »ñÈ¡ÁªÏµÈË
-     *
-     * @return LINKMAN - ÁªÏµÈË
-     */
-    public String getLinkman() {
-        return linkman;
-    }
-
-    /**
-     * ÉèÖÃÁªÏµÈË
-     *
-     * @param linkman ÁªÏµÈË
-     */
-    public void setLinkman(String linkman) {
-        this.linkman = linkman;
-    }
-
-    /**
-     * »ñÈ¡ÁªÏµµç»°
-     *
-     * @return PHONE - ÁªÏµµç»°
-     */
-    public String getPhone() {
-        return phone;
-    }
-
-    /**
-     * ÉèÖÃÁªÏµµç»°
-     *
-     * @param phone ÁªÏµµç»°
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    /**
-     * »ñÈ¡µØÖ·ÀàĞÍ
-     *
-     * @return ADDRESS_TYPE - µØÖ·ÀàĞÍ
-     */
-    public String getAddressType() {
-        return addressType;
-    }
-
-    /**
-     * ÉèÖÃµØÖ·ÀàĞÍ
-     *
-     * @param addressType µØÖ·ÀàĞÍ
-     */
-    public void setAddressType(String addressType) {
-        this.addressType = addressType;
-    }
-
-    /**
-     * »ñÈ¡ËùÔÚµØÇø
-     *
-     * @return AREA - ËùÔÚµØÇø
-     */
-    public String getArea() {
-        return area;
-    }
-
-    /**
-     * ÉèÖÃËùÔÚµØÇø
-     *
-     * @param area ËùÔÚµØÇø
-     */
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    /**
-     * »ñÈ¡ÏêÏ¸µØÖ·
-     *
-     * @return DETAILED_ADDRESS - ÏêÏ¸µØÖ·
-     */
-    public String getDetailedAddress() {
-        return detailedAddress;
-    }
-
-    /**
-     * ÉèÖÃÏêÏ¸µØÖ·
-     *
-     * @param detailedAddress ÏêÏ¸µØÖ·
-     */
-    public void setDetailedAddress(String detailedAddress) {
-        this.detailedAddress = detailedAddress;
-    }
 }

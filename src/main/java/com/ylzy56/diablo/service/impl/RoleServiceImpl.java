@@ -25,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired(required = false)
     private RolePermissionMapper rolePermissionDao;
 
-    @Autowired(required = false)
+    @Autowired
     private UserRoleMapper UserRoleDao;
 
     @Autowired
