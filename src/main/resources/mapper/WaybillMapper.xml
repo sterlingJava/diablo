@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.WaybillMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Waybill">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATEDBY" jdbcType="VARCHAR" property="createdby" />
+    <result column="CREATEDTIME" jdbcType="TIMESTAMP" property="createdtime" />
+    <result column="LAST_MODIFIED_DATE" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="LAST_MODIFIED_BY" jdbcType="VARCHAR" property="lastModifiedBy" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="TOTAL_FREIGHT" jdbcType="VARCHAR" property="totalFreight" />
+    <result column="TOTAL_DISTANCE" jdbcType="VARCHAR" property="totalDistance" />
+    <result column="TOTAL_WEIFGT" jdbcType="VARCHAR" property="totalWeifgt" />
+    <result column="TOTAL_VOLUME" jdbcType="VARCHAR" property="totalVolume" />
+    <result column="PICK_UP_TIME" jdbcType="TIMESTAMP" property="pickUpTime" />
+    <result column="ARRIVAL_TIME" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="CARGO" jdbcType="VARCHAR" property="cargo" />
+    <result column="SCHEDULE_METHOD" jdbcType="VARCHAR" property="scheduleMethod" />
+    <result column="CAR" jdbcType="VARCHAR" property="car" />
+    <result column="DRIVER_PHONE" jdbcType="VARCHAR" property="driverPhone" />
+    <result column="INSURANCE_NAME" jdbcType="VARCHAR" property="insuranceName" />
+    <result column="INSURANCE_MONEY" jdbcType="DECIMAL" property="insuranceMoney" />
+    <result column="FREIGHT_FIRST" jdbcType="DECIMAL" property="freightFirst" />
+    <result column="FREIGHT_FINAL" jdbcType="DECIMAL" property="freightFinal" />
+    <result column="OIL_CARD" jdbcType="DECIMAL" property="oilCard" />
+    <result column="SERVICE_FEE" jdbcType="DECIMAL" property="serviceFee" />
+  </resultMap>
+</mapper>

@@ -19,4 +19,6 @@ public interface AddressService {
 
     PageResult searchPage(String keyword, int pageNum, int pageSize);
 
+    PageResult searchNoPage(String keyword);
+
 }

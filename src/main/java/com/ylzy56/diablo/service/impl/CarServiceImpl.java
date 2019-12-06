@@ -83,4 +83,15 @@ public class CarServiceImpl implements CarService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    @Override
+    public PageResult searchNoPage(String keyword) {
+        Example example = new Example(Address.class);
+        Example.Criteria criteria = example.createCriteria();
+//        if (keyword != null && keyword.length() > 0) {
+//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
+//        }
+        Page<Car> page = (Page<Car>) carMapper.selectByExample(example);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
 }

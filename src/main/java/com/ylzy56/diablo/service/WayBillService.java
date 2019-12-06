@@ -1,23 +1,21 @@
 package com.ylzy56.diablo.service;
 
 import com.ylzy56.diablo.domain.Address;
-import com.ylzy56.diablo.domain.Car;
+import com.ylzy56.diablo.domain.Waybill;
 import com.ylzy56.diablo.domain.entity.PageResult;
 
 import java.util.List;
 
-public interface CarService {
+public interface WayBillService {
 
-    List<Car> findAll();
-    Car findById(int id);
-    int save(Car car);
+    List<Waybill> findAll();
+    Waybill findById(int id);
+    int save(Waybill waybill);
     int delete(int id);
-    int update(Car car);
+    int update(Waybill waybill);
 
-    void lead(List<List<String>> list);
 
     PageResult searchPage(String keyword, int pageNum, int pageSize);
-
     PageResult searchNoPage(String keyword);
 
 }
