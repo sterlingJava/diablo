@@ -1,10 +1,11 @@
 package com.ylzy56.diablo.controller;
 
-import com.ylzy56.diablo.domain.Address;
+import com.ylzy56.diablo.domain.Invoice;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
-import com.ylzy56.diablo.service.AddressService;
+import com.ylzy56.diablo.service.InvoiceService;
 import com.ylzy56.diablo.service.ImportService;
+import com.ylzy56.diablo.service.InvoiceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/address")
-@Api(value = "address")
+@RequestMapping("/invoice")
+@Api(value = "invoice")
 public class InvoiceController {
 
     @Autowired
@@ -30,17 +31,17 @@ public class InvoiceController {
 
 
     @Autowired
-    private AddressService addressService;
+    private InvoiceService invoiceService;
 
     /**
-     * 查询所有地址
+     * 查询所有发票
      * @return
      */
     @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有地址")
-    public List<Address> findAll(){
+    @ApiOperation(value = "查询所有发票")
+    public List<Invoice> findAll(){
         try {
-            return addressService.findAll();
+            return invoiceService.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -49,14 +50,14 @@ public class InvoiceController {
 
 
     /**
-     * 分页查询地址
+     * 分页查询发票
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页查询地址")
+    @ApiOperation(value = "分页查询发票")
     public PageResult searchPage(String keyword,int pageNum, int pageSize){
         try {
-            return addressService.searchPage(keyword,pageNum,pageSize);
+            return invoiceService.searchPage(keyword,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -71,7 +72,7 @@ public class InvoiceController {
     @ApiOperation(value = "根据条件查询运单")
     public PageResult searchNoPage(String keyworde){
         try {
-            return addressService.searchNoPage(keyworde);
+            return invoiceService.searchNoPage(keyworde);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -85,10 +86,10 @@ public class InvoiceController {
      * @return
      */
     @GetMapping("/findById")
-    @ApiOperation(value = "查询指定地址")
-    public Address findById(int id){
+    @ApiOperation(value = "查询指定发票")
+    public Invoice findById(int id){
         try {
-            return addressService.findById(id);
+            return invoiceService.findById(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -96,90 +97,56 @@ public class InvoiceController {
     }
 
     /**
-     * 添加地址
-     * @param address
+     * 添加发票
+     * @param invoice
      * @return
      */
     @PostMapping("/save")
-    @ApiOperation(value = "添加地址")
-    public Result save(Address address){
+    @ApiOperation(value = "添加发票")
+    public Result save(Invoice invoice){
         try {
-            addressService.save(address);
-            return new Result(true,"添加用户成功");
+            invoiceService.save(invoice);
+            return new Result(true,"添加发票成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加用户失败");
+            return new Result(true,"添加发票失败");
         }
     }
 
     /**
-     * 删除地址
+     * 删除发票
      * @param id
      * @return
      */
     @GetMapping("/delete")
-    @ApiOperation(value = "删除地址")
+    @ApiOperation(value = "删除发票")
     public Result delete(int id){
         try {
-            addressService.delete(id);
-            return new Result(true,"删除用户成功");
+            invoiceService.delete(id);
+            return new Result(true,"删除发票成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除用户失败");
+            return new Result(true,"删除发票失败");
         }
     }
 
     /**
-     * 更新地址
-     * @param address
+     * 更新发票
+     * @param invoice
      * @return
      */
     @GetMapping("/update")
-    @ApiOperation(value = "更新地址")
-    public Result update(Address address){
+    @ApiOperation(value = "更新发票")
+    public Result update(Invoice invoice){
         try {
-            addressService.update(address);
-            return new Result(true,"更新地址成功");
+            invoiceService.update(invoice);
+            return new Result(true,"更新发票成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"更新地址失败");
+            return new Result(true,"更新发票失败");
         }
     }
 
 
-    /**
-     * excel上传
-     * @param request
-     * @return
-     * @throws IOException
-     */
-    @ApiOperation(value = "导入地址")
-    @ResponseBody
-    @PostMapping(value="/file")
-    public ResponseEntity analyzeXml(HttpServletRequest request) throws IOException {
-
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        MultipartFile excelFile = files.get(0);
-        if (!excelFile.getOriginalFilename().endsWith("xlsx") && !excelFile.getOriginalFilename().endsWith("xls")){
-//            throw new BadRequestException("导入的文件需要为Excel类型！");
-        }
-        if (excelFile.isEmpty()) {
-//            throw new BadRequestException("文件不能为空!");
-        }
-        InputStream inputStream = excelFile.getInputStream();
-        List<List<String>> list = null;
-        try {
-            list = importService.getBankListByExcel(inputStream, excelFile.getOriginalFilename());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        inputStream.close();
-        if (ObjectUtils.isEmpty(list)){
-//            throw new BadRequestException("文件不能为空");
-        }
-        addressService.lead(list);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
 
 }
