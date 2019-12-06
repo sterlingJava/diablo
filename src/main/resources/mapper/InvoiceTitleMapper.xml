@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.InvoiceTitleMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.InvoiceTitle">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="ENTERPRISE_NAME" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="TAXPAYER_REGISTRATION_NUM" jdbcType="VARCHAR" property="taxpayerRegistrationNum" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="BANK_NUM" jdbcType="VARCHAR" property="bankNum" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="REGISTRANT_ADDRESS" jdbcType="VARCHAR" property="registrantAddress" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.BillMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Bill">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CREATEDBY" jdbcType="VARCHAR" property="createdby" />
+    <result column="CREATEDTIME" jdbcType="TIMESTAMP" property="createdtime" />
+    <result column="LAST_MODIFIED_BY" jdbcType="VARCHAR" property="lastModifiedBy" />
+    <result column="LAST_MODIFIED_DATE" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="WAYBILL_ID" jdbcType="VARCHAR" property="waybillId" />
+    <result column="PAYEE" jdbcType="DECIMAL" property="payee" />
+    <result column="ACCOUNT_PAYEE" jdbcType="VARCHAR" property="accountPayee" />
+    <result column="BANK" jdbcType="VARCHAR" property="bank" />
+    <result column="PAYROLL" jdbcType="DECIMAL" property="payroll" />
+    <result column="PAYMENT_TYPE" jdbcType="VARCHAR" property="paymentType" />
+    <result column="PAY_CHANNEL" jdbcType="VARCHAR" property="payChannel" />
+    <result column="REMITTANCE_NO" jdbcType="VARCHAR" property="remittanceNo" />
+    <result column="PAYER" jdbcType="VARCHAR" property="payer" />
+    <result column="PAY_TIME" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="PAY_STATUS" jdbcType="VARCHAR" property="payStatus" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_DEL" jdbcType="VARCHAR" property="isDel" />
+  </resultMap>
+</mapper>
