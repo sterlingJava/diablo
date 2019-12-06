@@ -56,6 +56,21 @@ public class UserController {
     }
 
     /**
+     * 条件查询用户列表
+     * @return
+     */
+    @GetMapping("/searchUserInfo")
+    @ApiOperation(value = "条件查询用户列表")
+    public List<UserInfo> searchUserInfo(Condition condition){
+        try {
+            return userService.searchUserInfo(condition);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 分页条件查询用户列表
      * @return
      */
@@ -80,6 +95,22 @@ public class UserController {
     public UserInfo findById(int userId){
         try {
             return userService.findById(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据手机号查询用户
+     * @param userId
+     * @return
+     */
+    @GetMapping("/findByMobile")
+    @ApiOperation(value = "根据手机号查询用户")
+    public UserInfo findByMobile(String mobile){
+        try {
+            return userService.findByMobile(mobile);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -173,20 +204,30 @@ public class UserController {
 
     @GetMapping("/sendSms")
     @ApiOperation(value = "发送短信验证码")
-    public void sendSms(HttpServletRequest request, String moblie) {
+    public Result sendSms(HttpServletRequest request, String moblie) {
         try {
-            //生成6位验证码
-            String smscode=  (long)(Math.random()*1000000)+"";
-            System.out.println(smscode);
-            //发送短信
+            //查询手机号是否注册
+            Condition condition = new Condition();
+            condition.setKeyword(moblie);
+            List<UserInfo> userInfoList = searchUserInfo(condition);
+            if (userInfoList.size() == 0) {
+                //生成6位验证码
+                String smscode = (long) (Math.random() * 1000000) + "";
+                System.out.println(smscode);
+                //发送短信
 
-            //将验证码存到session
-            HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(5*60);
-            // 将认证码存入SESSION
-            session.setAttribute(moblie, smscode);
+                //将验证码存到session
+                HttpSession session = request.getSession();
+                session.setMaxInactiveInterval(5 * 60);
+                // 将认证码存入SESSION
+                session.setAttribute(moblie, smscode);
+                return new Result(true,"已发送验证码!");
+            }else {
+                return new Result(false,"手机号存在!");
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return new Result(false,"发送验证码失败!");
         }
     }
 

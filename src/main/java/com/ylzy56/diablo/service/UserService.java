@@ -18,4 +18,8 @@ public interface UserService {
     PageResult findPage(int pageNum, int pageSize);
 
     PageResult searchPage(Condition condition, int pageNum, int pageSize);
+
+    List<UserInfo> searchUserInfo(Condition condition);
+
+    UserInfo findByMobile(String mobile);
 }

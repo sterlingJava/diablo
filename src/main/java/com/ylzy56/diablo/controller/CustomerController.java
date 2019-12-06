@@ -53,6 +53,21 @@ public class CustomerController {
     }
 
     /**
+     * 条件查询客户列表
+     * @return
+     */
+    @GetMapping("/searchCustomerList")
+    @ApiOperation(value = "条件查询客户列表")
+    public PageResult searchCustomerList(Condition condition){
+        try {
+            return customerService.searchCustomerList(condition);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 分页条件查询客户列表
      * @return
      */
@@ -132,5 +147,25 @@ public class CustomerController {
             e.printStackTrace();
             return new Result(true,"更新客户失败");
         }
+    }
+
+    /**
+     * 导入客户
+     * @return
+     */
+    @GetMapping("/importCustomerList")
+    @ApiOperation(value = "导入客户")
+    public Result importCustomerList(){
+        return null;
+    }
+
+    /**
+     * 导出客户
+     * @return
+     */
+    @GetMapping("/exportCustomerList")
+    @ApiOperation(value = "导出客户")
+    public Result exportCustomerList(){
+        return null;
     }
 }

@@ -21,4 +21,6 @@ public interface CustomerService {
     void delete(int customerId);
 
     void update(Customer customer);
+
+    PageResult searchCustomerList(Condition condition);
 }

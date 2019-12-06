@@ -168,4 +168,24 @@ public class UserServiceImpl implements UserService {
         Page<UserInfo> page = (Page<UserInfo>) userDao.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
     }
+
+    @Override
+    public List<UserInfo> searchUserInfo(Condition condition) {
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (!StringUtil.isEmpty(condition.getKeyword())) {
+            criteria.orLike("username", "%" + condition.getKeyword() + "%");
+            criteria.orLike("mobile", "%" + condition.getKeyword() + "%");
+        }
+        if (!StringUtil.isEmpty(condition.getStatus())){
+            criteria.andEqualTo("status",condition.getStatus());
+        }
+        criteria.andEqualTo("isDel",0);
+        return userDao.selectByExample(example);
+    }
+
+    @Override
+    public UserInfo findByMobile(String mobile) {
+        return userDao.selectOne(new UserInfo(){{setMobile(mobile);}});
+    }
 }

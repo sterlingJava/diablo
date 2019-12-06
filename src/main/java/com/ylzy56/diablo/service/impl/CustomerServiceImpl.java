@@ -44,4 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void update(Customer customer) {
 
     }
+
+    @Override
+    public PageResult searchCustomerList(Condition condition) {
+        return null;
+    }
 }
