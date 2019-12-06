@@ -98,11 +98,9 @@ public class Waybill {
     @Column(name = "SERVICE_FEE")
     private Long serviceFee;
 
-<<<<<<< HEAD
     @Transient
     private List<Address> addressIds;
 
-=======
     /**
      * @return ID
      */
@@ -438,5 +436,4 @@ public class Waybill {
     public void setServiceFee(Long serviceFee) {
         this.serviceFee = serviceFee;
     }
->>>>>>> 90a49e745f7dbbbed1a8143cffcc2f37261a9817
 }

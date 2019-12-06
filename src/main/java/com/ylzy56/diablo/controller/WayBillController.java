@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/address")
-@Api(value = "address")
+@RequestMapping("/wayBill")
+@Api(value = "wayBill")
 public class WayBillController {
 
 

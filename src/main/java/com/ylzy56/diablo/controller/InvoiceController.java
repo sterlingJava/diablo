@@ -27,10 +27,6 @@ import java.util.List;
 public class InvoiceController {
 
     @Autowired
-    private ImportService importService;
-
-
-    @Autowired
     private InvoiceService invoiceService;
 
     /**
