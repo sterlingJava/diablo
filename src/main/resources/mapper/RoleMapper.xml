@@ -9,5 +9,11 @@
     <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="parent_role_id" jdbcType="INTEGER" property="parentRoleId" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modifier" jdbcType="VARCHAR" property="lastModifier" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

@@ -7,9 +7,9 @@ import com.ylzy56.diablo.domain.entity.PageResult;
 import java.util.List;
 
 public interface EnterpriseService {
-    int save(Enterprise enterprise);
-    int del(int enterpriseId);
-    int update(Enterprise enterprise);
+    void save(Enterprise enterprise);
+    void delete(int enterpriseId);
+    void update(Enterprise enterprise);
     Enterprise findById(int enterpriseId);
     List<Enterprise> findAll();
 

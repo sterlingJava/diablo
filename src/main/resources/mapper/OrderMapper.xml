@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.Order">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="cargo_type" jdbcType="VARCHAR" property="cargoType" />
+    <result column="predict_weight" jdbcType="VARCHAR" property="predictWeight" />
+    <result column="predict_volume" jdbcType="VARCHAR" property="predictVolume" />
+    <result column="predict_freight" jdbcType="VARCHAR" property="predictFreight" />
+    <result column="predict_pickup_time" jdbcType="TIMESTAMP" property="predictPickupTime" />
+    <result column="predict_unload_time" jdbcType="TIMESTAMP" property="predictUnloadTime" />
+    <result column="conversion_waybill" jdbcType="INTEGER" property="conversionWaybill" />
+    <result column="residual_weight" jdbcType="VARCHAR" property="residualWeight" />
+    <result column="residual_volume" jdbcType="VARCHAR" property="residualVolume" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modifier" jdbcType="VARCHAR" property="lastModifier" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+  </resultMap>
+</mapper>

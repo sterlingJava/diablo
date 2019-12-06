@@ -77,6 +77,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(UserInfo userInfo) {
+        userInfo.setStatus("0");
+        userInfo.setIsDel("0");
         userDao.insert(userInfo);
     }
 

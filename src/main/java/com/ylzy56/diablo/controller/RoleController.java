@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class RoleController {
      * @param role
      * @return
      */
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation(value = "添加角色")
     public String save(Role role){
         return roleService.save(role)==0?"添加角色失败":"添加角色成功";
