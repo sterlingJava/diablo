@@ -1,21 +1,18 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.UserInfo;
-import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.web.bind.annotation.*;
-import tk.mybatis.mapper.util.StringUtil;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
@@ -60,10 +57,10 @@ public class UserController {
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页条件查询用户列表")
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
+    @ApiOperation(value = "分页查询用户列表")
+    public PageResult searchPage(String keyword,int pageNum, int pageSize){
         try {
-            return userService.searchPage(condition,pageNum,pageSize);
+            return userService.searchPage(keyword,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -147,10 +144,10 @@ public class UserController {
     public Result addRoleToUser(int userId,int roleId){
         try {
             userService.addRoleToUser(userId,roleId);
-            return new Result(true,"添加角色成功");
+            return new Result(true,"删除用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加角色失败");
+            return new Result(true,"删除用户成功");
         }
     }
 
@@ -164,44 +161,10 @@ public class UserController {
     public Result deleteRoleFromUser(int userId,int roleId){
         try {
             userService.deleteRoleFromUser(userId,roleId);
-            return new Result(true,"删除角色成功");
+            return new Result(true,"删除用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除角色失败");
-        }
-    }
-
-    @GetMapping("/sendSms")
-    @ApiOperation(value = "发送短信验证码")
-    public void sendSms(HttpServletRequest request, String moblie) {
-        try {
-            //生成6位验证码
-            String smscode=  (long)(Math.random()*1000000)+"";
-            System.out.println(smscode);
-            //发送短信
-
-            //将验证码存到session
-            HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(5*60);
-            // 将认证码存入SESSION
-            session.setAttribute(moblie, smscode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @GetMapping("/checkSms")
-    @ApiOperation(value = "校验短信验证码")
-    public Result checkSms(HttpServletRequest request, String mobile, String code) {
-        String smsCode = (String) request.getSession().getAttribute(mobile);
-        if (!StringUtil.isEmpty(smsCode)) {
-            if (smsCode.equals(code)) {
-                return new Result(true, "验证码正确!");
-            } else {
-                return new Result(true, "验证码错误!");
-            }
-        }else {
-            return new Result(true, "验证码无效,请重新获取!");
+            return new Result(true,"删除用户成功");
         }
     }
 }

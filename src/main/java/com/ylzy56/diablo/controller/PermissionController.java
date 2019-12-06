@@ -6,7 +6,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +24,7 @@ public class PermissionController {
      * @param permission
      * @return
      */
-    @PostMapping("/save")
+    @GetMapping("/save")
     @ApiOperation(value = "添加权限")
     public String save(Permission permission){
         return permissionService.save(permission)==0?"添加权限失败":"添加权限成功";

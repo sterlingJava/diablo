@@ -1,10 +1,9 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Address;
-import com.ylzy56.diablo.domain.Car;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
-import com.ylzy56.diablo.service.CarService;
+import com.ylzy56.diablo.service.AddressService;
 import com.ylzy56.diablo.service.ImportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,26 +21,26 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/car")
-@Api(value = "car")
-public class CarController {
+@RequestMapping("/address")
+@Api(value = "address")
+public class InvoiceController {
 
     @Autowired
     private ImportService importService;
 
 
     @Autowired
-    private CarService carService;
+    private AddressService addressService;
 
     /**
-     * 查询所有车辆
+     * 查询所有地址
      * @return
      */
     @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有车辆")
-    public List<Car> findAll(){
+    @ApiOperation(value = "查询所有地址")
+    public List<Address> findAll(){
         try {
-            return carService.findAll();
+            return addressService.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -50,14 +49,14 @@ public class CarController {
 
 
     /**
-     * 分页查询车辆
+     * 分页查询地址
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页查询车辆")
-    public PageResult searchPage(String keyword, int pageNum, int pageSize){
+    @ApiOperation(value = "分页查询地址")
+    public PageResult searchPage(String keyword,int pageNum, int pageSize){
         try {
-            return carService.searchPage(keyword,pageNum,pageSize);
+            return addressService.searchPage(keyword,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -72,7 +71,7 @@ public class CarController {
     @ApiOperation(value = "根据条件查询运单")
     public PageResult searchNoPage(String keyworde){
         try {
-            return carService.searchNoPage(keyworde);
+            return addressService.searchNoPage(keyworde);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -81,15 +80,15 @@ public class CarController {
 
 
     /**
-     * 查询指定车辆
+     * 查询指定
      * @param id
      * @return
      */
     @GetMapping("/findById")
-    @ApiOperation(value = "查询指定车辆")
-    public Car findById(int id) {
+    @ApiOperation(value = "查询指定地址")
+    public Address findById(int id){
         try {
-            return carService.findById(id);
+            return addressService.findById(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -97,53 +96,53 @@ public class CarController {
     }
 
     /**
-     * 添加车辆
-     * @param car
+     * 添加地址
+     * @param address
      * @return
      */
     @PostMapping("/save")
-    @ApiOperation(value = "添加车辆")
-    public Result save(Car car){
+    @ApiOperation(value = "添加地址")
+    public Result save(Address address){
         try {
-            carService.save(car);
-            return new Result(true,"添加车辆成功");
+            addressService.save(address);
+            return new Result(true,"添加用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加车辆失败");
+            return new Result(true,"添加用户失败");
         }
     }
 
     /**
-     * 删除车辆
+     * 删除地址
      * @param id
      * @return
      */
     @GetMapping("/delete")
-    @ApiOperation(value = "删除车辆")
+    @ApiOperation(value = "删除地址")
     public Result delete(int id){
         try {
-            carService.delete(id);
-            return new Result(true,"删除车辆成功");
+            addressService.delete(id);
+            return new Result(true,"删除用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除车辆失败");
+            return new Result(true,"删除用户失败");
         }
     }
 
     /**
-     * 更新车辆
-     * @param car
+     * 更新地址
+     * @param address
      * @return
      */
     @GetMapping("/update")
-    @ApiOperation(value = "更新车辆")
-    public Result update(Car car){
+    @ApiOperation(value = "更新地址")
+    public Result update(Address address){
         try {
-            carService.update(car);
-            return new Result(true,"更新车辆成功");
+            addressService.update(address);
+            return new Result(true,"更新地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"更新车辆失败");
+            return new Result(true,"更新地址失败");
         }
     }
 
@@ -154,7 +153,7 @@ public class CarController {
      * @return
      * @throws IOException
      */
-    @ApiOperation(value = "导入车辆")
+    @ApiOperation(value = "导入地址")
     @ResponseBody
     @PostMapping(value="/file")
     public ResponseEntity analyzeXml(HttpServletRequest request) throws IOException {
@@ -178,7 +177,7 @@ public class CarController {
         if (ObjectUtils.isEmpty(list)){
 //            throw new BadRequestException("文件不能为空");
         }
-        carService.lead(list);
+        addressService.lead(list);
 
         return new ResponseEntity(HttpStatus.OK);
     }

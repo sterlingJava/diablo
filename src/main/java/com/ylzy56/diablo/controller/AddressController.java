@@ -65,6 +65,22 @@ public class AddressController {
     }
 
     /**
+     * 根据条件查询运单
+     * @return
+     */
+    @GetMapping("/searchNoPage")
+    @ApiOperation(value = "根据条件查询运单")
+    public PageResult searchNoPage(String keyworde){
+        try {
+            return addressService.searchNoPage(keyworde);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
      * 查询指定
      * @param id
      * @return

@@ -8,7 +8,6 @@
     <properties resource="application-dev.properties"/>
 
     <context id="DB2Tables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
-        <property name="javaFileEncoding" value="UTF-8"/>
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
         <!--插件-->
@@ -48,7 +47,10 @@
         <table tableName="invoice">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="invoice_title">
+        <table tableName="car">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="address">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
         <!--<table tableName="role">

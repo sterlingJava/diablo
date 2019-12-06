@@ -1,8 +1,11 @@
 package com.ylzy56.diablo.domain;
 
+import lombok.Data;
+
 import java.util.Date;
 import javax.persistence.*;
 
+@Data
 public class Customer {
     @Id
     @Column(name = "customer_id")

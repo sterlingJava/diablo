@@ -8,7 +8,6 @@ public class Enterprise {
      */
     @Id
     @Column(name = "enterprise_id")
-    @GeneratedValue(generator = "JDBC")
     private Integer enterpriseId;
 
     /**
