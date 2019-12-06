@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ylzy56.diablo.dao.UserInfoMapper">
-  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.EUser">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.UserInfo">
     <!--
       WARNING - @mbg.generated
     -->

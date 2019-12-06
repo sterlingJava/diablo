@@ -1,11 +1,15 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Enterprise;
+import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.PageResult;
+import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.EnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,61 +25,116 @@ public class EnterpriseController {
 
     /**
      * 添加企业
+     *
      * @param enterprise
      * @return
      */
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation(value = "添加企业")
-    public String save(Enterprise enterprise){
-        return enterpriseService.save(enterprise)==0?"添加企业失败":"添加企业成功";
+    public Result save(Enterprise enterprise) {
+        try {
+            enterpriseService.save(enterprise);
+            return new Result(true, "添加企业成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, "添加企业失败");
+        }
     }
 
     /**
-     *删除企业
+     * 删除企业
+     *
      * @param enterpriseId
      * @return
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除企业")
-    public String delete(int enterpriseId){
-        return enterpriseService.del(enterpriseId)==0?"添加企业失败":"添加企业成功";
+    public Result delete(int enterpriseId) {
+        try {
+            enterpriseService.delete(enterpriseId);
+            return new Result(true, "删除企业成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, "删除企业失败");
+        }
     }
 
     /**
      * 修改企业信息
+     *
      * @param enterprise
      * @return
      */
     @GetMapping("/update")
     @ApiOperation(value = "修改企业信息")
-    public String update(Enterprise enterprise){
-        return enterpriseService.update(enterprise)==0?"修改企业失败":"修改企业成功";
+    public Result update(Enterprise enterprise) {
+        try {
+            enterpriseService.update(enterprise);
+            return new Result(true, "更新企业成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, "更新企业失败");
+        }
     }
 
     /**
      * 根据id查询企业信息
+     *
      * @param enterpriseId
      * @return
      */
     @GetMapping("/findById")
     @ApiOperation(value = "根据id查询企业信息")
-    public Enterprise findById(int enterpriseId){
-        return enterpriseService.findById(enterpriseId);
+    public Enterprise findById(int enterpriseId) {
+        try {
+            return enterpriseService.findById(enterpriseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * 查询所有企业信息
+     *
      * @return
      */
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有企业信息")
-    public List<Enterprise> findAll(){
-        return enterpriseService.findAll();
+    public List<Enterprise> findAll() {
+        try {
+            return enterpriseService.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @GetMapping("/updateStatus")
     @ApiOperation(value = "审核企业信息")
-    public String updateStatus(int enterpriseId,String status){
-        return enterpriseService.updateStatus(enterpriseId,status)==0 ? "审核企业失败":"审核企业完成";
+    public Result updateStatus(int enterpriseId, String status) {
+        try {
+            enterpriseService.updateStatus(enterpriseId, status);
+            return new Result(true, "审核企业成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true, "审核企业失败");
+        }
+    }
+
+    /**
+     * 分页条件查询企业列表
+     *
+     * @return
+     */
+    @GetMapping("/searchPage")
+    @ApiOperation(value = "分页条件查询企业列表")
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+        try {
+            return enterpriseService.searchPage(condition, pageNum, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
