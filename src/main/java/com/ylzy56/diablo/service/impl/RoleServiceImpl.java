@@ -3,17 +3,19 @@ package com.ylzy56.diablo.service.impl;
 import com.ylzy56.diablo.dao.RoleMapper;
 import com.ylzy56.diablo.dao.RolePermissionMapper;
 import com.ylzy56.diablo.dao.UserRoleMapper;
-import com.ylzy56.diablo.domain.Permission;
-import com.ylzy56.diablo.domain.Role;
-import com.ylzy56.diablo.domain.RolePermission;
-import com.ylzy56.diablo.domain.UserRole;
+import com.ylzy56.diablo.domain.*;
+import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.PermissionService;
 import com.ylzy56.diablo.service.RoleService;
+import com.ylzy56.diablo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,14 +33,19 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 添加角色
      * @param role
      * @return
      */
     @Override
-    public int save(Role role) {
-        return roleDao.insert(role);
+    public void save(Role role) {
+        role.setCreateTime(new Date());
+        role.setIsDel("0");
+         roleDao.insert(role);
     }
 
     /**
@@ -48,21 +55,25 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public int delete(int roleId) {
-        try {
-            //1.根据角色id删除用户角色关联表中记录
-            UserRoleDao.delete(new UserRole() {{
-                setRoleId(roleId);
-            }});
-            //2.根据角色id删除角色权限关联表中记录
-            rolePermissionDao.delete(new RolePermission() {{
-                setRoleId(roleId);
-            }});
-            //3.根据角色id删除角色表中记录
-            return roleDao.deleteByPrimaryKey(roleId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+    public void delete(int roleId) {
+        //1.根据角色id删除用户角色关联表中记录
+        UserRoleDao.delete(new UserRole() {{
+            setRoleId(roleId);
+        }});
+        //2.根据角色id删除角色权限关联表中记录
+        rolePermissionDao.delete(new RolePermission() {{
+            setRoleId(roleId);
+        }});
+        //2.查询需要删除的角色
+        Example example = new Example(Role.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId", roleId);
+        criteria.andEqualTo("isDel", "0");
+        Role role = roleDao.selectOneByExample(example);
+        if (!ObjectUtils.isEmpty(role)) {
+            role.setIsDel("1");
+            //2.删除角色信息
+            roleDao.updateByPrimaryKey(role);
         }
     }
 
@@ -73,13 +84,9 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public int update(Role role) {
-        try {
-            return roleDao.updateByPrimaryKey(role);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void update(Role role) {
+        role.setLastModifyTime(new Date());
+        roleDao.updateByPrimaryKey(role);
     }
 
     /**
@@ -89,13 +96,10 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public List<Role> findAll() {
-        List<Role> roleList = null;
-        try {
-            roleList = roleDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return roleList;
+        Example example = new Example(Role.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel","0");
+        return roleDao.selectByExample(example);
     }
 
     /**
@@ -106,15 +110,16 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Role findById(int roleId) {
-        Role role = null;
-        try {
-            //1.根据角色id从角色表中查询到对应角色信息
-            role = roleDao.selectByPrimaryKey(roleId);
-            //2.根据角色id查询此角色的包含的权限信息并存入角色中
-            List<Permission> permissionList = permissionService.findPermissionsByRoleId(roleId);
+        //1.根据角色id从角色表中查询到对应角色信息
+        Example example = new Example(Role.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("roleId", roleId);
+        criteria.andEqualTo("isDel", "0");
+        Role role = roleDao.selectOneByExample(example);
+        //2.根据角色id查询此角色的包含的权限信息并存入角色中
+        List<Permission> permissionList = permissionService.findPermissionsByRoleId(roleId);
+        if (!ObjectUtils.isEmpty(role)) {
             role.setPermissions(permissionList);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return role;
     }
@@ -127,17 +132,12 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public int addPermissionToRole(int roleId, int permissionId) {
-        try {
-            //向角色权限关联表中插入一条记录
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setRoleId(roleId);
-            rolePermission.setPermissionId(permissionId);
-            return rolePermissionDao.insert(rolePermission);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void addPermissionToRole(int roleId, int permissionId) {
+        //向角色权限关联表中插入一条记录
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRoleId(roleId);
+        rolePermission.setPermissionId(permissionId);
+        rolePermissionDao.insert(rolePermission);
     }
 
     /**
@@ -148,16 +148,11 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public int deletePermissionFromRole(int roleId, int permissionId) {
-        try {
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setRoleId(roleId);
-            rolePermission.setPermissionId(permissionId);
-            return rolePermissionDao.delete(rolePermission);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void deletePermissionFromRole(int roleId, int permissionId) {
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRoleId(roleId);
+        rolePermission.setPermissionId(permissionId);
+        rolePermissionDao.delete(rolePermission);
     }
 
     /**
@@ -169,22 +164,23 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findRolesByUserId(int userId) {
         List<Role> roleList = new ArrayList<>();
-        try {
+        if (userService.checkIsDel(userId)) {
             //1.从用户角色关联表中查询出用户的角色id列表
             List<UserRole> UserRoleList = UserRoleDao.select(new UserRole() {{
                 setUserId(userId);
             }});
             //2.根据角色id列表,查询角色详情
-            for (UserRole UserRole : UserRoleList) {
-                Role role = roleDao.selectByPrimaryKey(UserRole.getRoleId());
+            for (UserRole userRole : UserRoleList) {
+                Example example = new Example(Role.class);
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andEqualTo("roleId", userRole.getRoleId());
+                criteria.andEqualTo("isDel", "0");
+                Role role = roleDao.selectOneByExample(example);
                 roleList.add(role);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return roleList;
     }
-
     /**
      * 查询用户不具有的角色列表
      *
@@ -195,23 +191,45 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> findOtherRoles(int userId) {
         List<Role> roleList = null;
         List<Integer> roleIdList = new ArrayList();
-        try {
-            List<UserRole> UserRoleList = UserRoleDao.select(new UserRole() {{
-                setUserId(userId);
-            }});
-            for (UserRole UserRole : UserRoleList) {
-                roleIdList.add(UserRole.getRoleId());
+        if (userService.checkIsDel(userId)){
+            try {
+                List<UserRole> UserRoleList = UserRoleDao.select(new UserRole() {{
+                    setUserId(userId);
+                }});
+                for (UserRole UserRole : UserRoleList) {
+                    roleIdList.add(UserRole.getRoleId());
+                }
+                if (roleIdList.size() == 0) {
+                    Example example = new Example(Role.class);
+                    Example.Criteria criteria = example.createCriteria();
+                    criteria.andEqualTo("isDel","0");
+                    roleList = roleDao.selectByExample(example);
+                } else {
+                    Example example = new Example(Role.class);
+                    Example.Criteria criteria = example.createCriteria();
+                    criteria.andNotIn("roleId", roleIdList);
+                    criteria.andEqualTo("isDel","0");
+                    roleList = roleDao.selectByExample(example);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            if (roleIdList.size() == 0) {
-                roleList = roleDao.selectAll();
-            } else {
-                Example example = new Example(Role.class);
-                example.createCriteria().andNotIn("roleId", roleIdList);
-                roleList = roleDao.selectByExample(example);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return roleList;
+    }
+
+    @Override
+    public PageResult findPage(int pageNum, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public List<Role> searchRole(Condition condition) {
+        return null;
     }
 }

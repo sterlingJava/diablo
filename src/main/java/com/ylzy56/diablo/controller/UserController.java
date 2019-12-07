@@ -103,7 +103,7 @@ public class UserController {
 
     /**
      * 根据手机号查询用户
-     * @param userId
+     * @param mobile
      * @return
      */
     @GetMapping("/findByMobile")
@@ -130,7 +130,7 @@ public class UserController {
             return new Result(true,"添加用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加用户失败");
+            return new Result(false,"添加用户失败");
         }
     }
 
@@ -147,7 +147,7 @@ public class UserController {
             return new Result(true,"删除用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除用户失败");
+            return new Result(false,"删除用户失败");
         }
     }
 
@@ -164,7 +164,7 @@ public class UserController {
             return new Result(true,"更新用户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"更新用户失败");
+            return new Result(false,"更新用户失败");
         }
     }
 
@@ -181,7 +181,7 @@ public class UserController {
             return new Result(true,"添加角色成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加角色失败");
+            return new Result(false,"添加角色失败");
         }
     }
 
@@ -198,7 +198,7 @@ public class UserController {
             return new Result(true,"删除角色成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除角色失败");
+            return new Result(false,"删除角色失败");
         }
     }
 
@@ -223,7 +223,7 @@ public class UserController {
                 session.setAttribute(moblie, smscode);
                 return new Result(true,"已发送验证码!");
             }else {
-                return new Result(false,"手机号存在!");
+                return new Result(true,"手机号存在!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,10 +239,10 @@ public class UserController {
             if (smsCode.equals(code)) {
                 return new Result(true, "验证码正确!");
             } else {
-                return new Result(true, "验证码错误!");
+                return new Result(false, "验证码错误!");
             }
         }else {
-            return new Result(true, "验证码无效,请重新获取!");
+            return new Result(false, "验证码无效,请重新获取!");
         }
     }
 }

@@ -16,6 +16,7 @@
     <result column="corp_name" jdbcType="VARCHAR" property="corpName" />
     <result column="corp_idnum" jdbcType="VARCHAR" property="corpIdnum" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
     <result column="is_del" jdbcType="VARCHAR" property="isDel" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="password" jdbcType="VARCHAR" property="password" />
