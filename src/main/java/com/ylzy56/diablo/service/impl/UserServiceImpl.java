@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,7 +43,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserInfo> findAll() {
-        return userDao.selectAll();
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel","0");
+        return userDao.selectByExample(example);
     }
 
     /**
@@ -53,9 +57,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserInfo findById(int userId) {
-
         //1.根据用户id查询用户信息
-        UserInfo userInfo = userDao.selectByPrimaryKey(userId);
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("isDel","0");
+        UserInfo userInfo = userDao.selectOneByExample(example);
         //2.根据用户id查询用包含的角色列表
         List<Role> roleList = roleService.findRolesByUserId(userId);
         //3.遍历角色列表,根据角色id查询出包含的权限信息
@@ -77,6 +84,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(UserInfo userInfo) {
+        userInfo.setCreateTime(new Date());
         userInfo.setStatus("0");
         userInfo.setIsDel("0");
         userDao.insert(userInfo);
@@ -94,8 +102,17 @@ public class UserServiceImpl implements UserService {
         UserRoleDao.delete(new UserRole() {{
             setUserId(userId);
         }});
-        //2.删除用户信息
-        userDao.deleteByPrimaryKey(userId);
+        //2.查询需要删除的用户
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("isDel","0");
+        UserInfo userInfo = userDao.selectOneByExample(example);
+        if (!ObjectUtils.isEmpty(userInfo)) {
+            userInfo.setIsDel("1");
+            //2.删除用户信息
+            userDao.updateByPrimaryKey(userInfo);
+        }
 
     }
 
@@ -107,7 +124,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void update(UserInfo userInfo) {
-
+        //添加修改时间
+        userInfo.setLastModifyTime(new Date());
         userDao.updateByPrimaryKey(userInfo);
 
     }
@@ -121,7 +139,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void addRoleToUser(int userId, int roleId) {
-
         //在用户角色关联表插入一条记录
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
@@ -148,7 +165,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageResult findPage(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        Page<UserInfo> page = (Page<UserInfo>) userDao.selectAll();
+        Page<UserInfo> page = (Page<UserInfo>) findAll();
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -186,6 +203,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo findByMobile(String mobile) {
-        return userDao.selectOne(new UserInfo(){{setMobile(mobile);}});
+        //1.根据手机号查询用户信息
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("mobile",mobile);
+        criteria.andEqualTo("isDel","0");
+        return userDao.selectOneByExample(example);
+    }
+
+    @Override
+    public boolean checkIsDel(int userId) {
+        //1.根据用户id查询用户信息
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",userId);
+        UserInfo userInfo = userDao.selectOneByExample(example);
+        if (ObjectUtils.isEmpty(userInfo)){
+            return false;
+        }else {
+            if ("0".equals(userInfo.getIsDel())){
+                return true;
+            }else {
+                return false;
+            }
+        }
     }
 }

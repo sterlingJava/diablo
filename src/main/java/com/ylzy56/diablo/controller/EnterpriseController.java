@@ -110,11 +110,17 @@ public class EnterpriseController {
         }
     }
 
+    /**
+     * 审核企业信息
+     * @param enterpriseId
+     * @param status
+     * @return
+     */
     @GetMapping("/updateStatus")
     @ApiOperation(value = "审核企业信息")
-    public Result updateStatus(int enterpriseId, String status) {
+    public Result updateStatus(int enterpriseId, String status,String remark) {
         try {
-            enterpriseService.updateStatus(enterpriseId, status);
+            enterpriseService.updateStatus(enterpriseId, status,remark);
             return new Result(true, "审核企业成功");
         } catch (Exception e) {
             e.printStackTrace();

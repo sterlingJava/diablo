@@ -13,7 +13,7 @@ public interface EnterpriseService {
     Enterprise findById(int enterpriseId);
     List<Enterprise> findAll();
 
-    int updateStatus(int enterpriseId, String status);
+    int updateStatus(int enterpriseId, String status,String remark);
 
     PageResult searchPage(Condition condition, int pageNum, int pageSize);
 }

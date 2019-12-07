@@ -1,6 +1,10 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Role;
+import com.ylzy56.diablo.domain.Role;
+import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.PageResult;
+import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +31,14 @@ public class RoleController {
      */
     @PostMapping("/save")
     @ApiOperation(value = "添加角色")
-    public String save(Role role){
-        return roleService.save(role)==0?"添加角色失败":"添加角色成功";
+    public Result save(Role role){
+        try {
+            roleService.save(role);
+            return new Result(true,"添加角色成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"添加角色失败");
+        }
     }
 
     /**
@@ -38,40 +48,105 @@ public class RoleController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除角色")
-    public String delete(int roleId){
-        return roleService.delete(roleId)==0?"删除角色失败":"删除角色成功";
+    public Result delete(int roleId){
+        try {
+            roleService.delete(roleId);
+            return new Result(true,"删除角色成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"删除角色失败");
+        }
     }
-
     /**
-     * 修改角色
+     * 更新角色
      * @param role
      * @return
      */
     @GetMapping("/update")
-    @ApiOperation(value = "修改角色")
-    public String update(Role role){
-        return roleService.update(role)==0?"修改角色失败":"修改角色成功";
+    @ApiOperation(value = "更新角色")
+    public Result update(Role role){
+        try {
+            roleService.update(role);
+            return new Result(true,"更新角色成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"更新角色失败");
+        }
     }
-
     /**
-     * 查询所有角色
+     * 查询所有角色列表
      * @return
      */
     @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有角色")
+    @ApiOperation(value = "查询所有角色列表")
     public List<Role> findAll(){
-        return roleService.findAll();
+        try {
+            return roleService.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
-     * 查询指定角色
+     * 分页查询角色列表
+     * @return
+     */
+    @GetMapping("/findPage")
+    @ApiOperation(value = "分页查询角色列表")
+    public PageResult findPage(int pageNum, int pageSize){
+        try {
+            return roleService.findPage(pageNum,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 条件查询角色列表
+     * @return
+     */
+    @GetMapping("/searchRole")
+    @ApiOperation(value = "条件查询角色列表")
+    public List<Role> searchRole(Condition condition){
+        try {
+            return roleService.searchRole(condition);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 分页条件查询角色列表
+     * @return
+     */
+    @GetMapping("/searchPage")
+    @ApiOperation(value = "分页条件查询角色列表")
+    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
+        try {
+            return roleService.searchPage(condition,pageNum,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 查询指定角色信息
      * @param roleId
      * @return
      */
     @GetMapping("/findById")
-    @ApiOperation(value = "查询指定角色")
+    @ApiOperation(value = "查询指定角色信息")
     public Role findById(int roleId){
-        return roleService.findById(roleId);
+        try {
+            return roleService.findById(roleId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -81,8 +156,14 @@ public class RoleController {
      */
     @GetMapping("/addPermissionToRole")
     @ApiOperation(value = "给指定角色添加权限")
-    public String addPermissionToRole(int roleId,int permissionId){
-        return roleService.addPermissionToRole(roleId,permissionId)==0?"添加权限失败":"添加权限成功";
+    public Result addPermissionToRole(int roleId,int permissionId){
+        try {
+            roleService.addPermissionToRole(roleId,permissionId);
+            return new Result(true,"添加权限成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"添加权限失败");
+        }
     }
 
     /**
@@ -92,8 +173,14 @@ public class RoleController {
      */
     @GetMapping("/deletePermissionFromRole")
     @ApiOperation(value = "给指定角色删除权限")
-    public String deletePermissionFromRole(int roleId,int permissionId){
-        return roleService.deletePermissionFromRole(roleId,permissionId)==0?"删除权限失败":"删除权限成功";
+    public Result deletePermissionFromRole(int roleId,int permissionId){
+        try {
+            roleService.deletePermissionFromRole(roleId,permissionId);
+            return new Result(true,"删除权限成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"删除权限成功");
+        }
     }
 
     /**

@@ -74,11 +74,12 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public int updateStatus(int enterpriseId, String status) {
+    public int updateStatus(int enterpriseId, String status,String remark) {
         try {
             Enterprise enterprise = enterpriseDao.selectByPrimaryKey(enterpriseId);
             if (enterprise != null) {
                 enterprise.setStatus(status);
+                enterprise.setNotes(remark);
                 if ("1".equals(status)) {
                     UserInfo userInfo = userInfoDao.selectOne(new UserInfo() {{
                         setEnterpriseId(enterpriseId);

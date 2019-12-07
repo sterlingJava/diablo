@@ -22,4 +22,6 @@ public interface UserService {
     List<UserInfo> searchUserInfo(Condition condition);
 
     UserInfo findByMobile(String mobile);
+
+    boolean checkIsDel(int userId);
 }
