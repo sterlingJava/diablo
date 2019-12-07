@@ -33,20 +33,7 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    /**
-     * 查询所有地址
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有地址")
-    public List<Address> findAll(){
-        try {
-            return addressService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
 
     /**
@@ -69,8 +56,8 @@ public class AddressController {
      * @return
      */
     @GetMapping("/searchNoPage")
-    @ApiOperation(value = "根据条件查询运单")
-    public PageResult searchNoPage(String keyworde){
+    @ApiOperation(value = "根据条件查询地址")
+    public List<Address> searchNoPage(String keyworde){
         try {
             return addressService.searchNoPage(keyworde);
         } catch (Exception e) {
@@ -106,10 +93,10 @@ public class AddressController {
     public Result save(Address address){
         try {
             addressService.save(address);
-            return new Result(true,"添加用户成功");
+            return new Result(true,"添加地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加用户失败");
+            return new Result(true,"添加地址失败");
         }
     }
 
@@ -123,10 +110,10 @@ public class AddressController {
     public Result delete(int id){
         try {
             addressService.delete(id);
-            return new Result(true,"删除用户成功");
+            return new Result(true,"删除地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除用户失败");
+            return new Result(true,"删除地址失败");
         }
     }
 

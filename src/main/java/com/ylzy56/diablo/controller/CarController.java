@@ -33,21 +33,6 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    /**
-     * 查询所有车辆
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有车辆")
-    public List<Car> findAll(){
-        try {
-            return carService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     /**
      * 分页查询车辆

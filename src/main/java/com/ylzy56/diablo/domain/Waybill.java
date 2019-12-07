@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Waybill {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "JDBC")
     private String id;
 
     @Column(name = "CREATEDBY")
@@ -41,8 +41,14 @@ public class Waybill {
     @Column(name = "TOTAL_VOLUME")
     private String totalVolume;
 
+    @Column(name = "PLAN_PICK_UP_TIME")
+    private Date planPickUpTime;
+
     @Column(name = "PICK_UP_TIME")
     private Date pickUpTime;
+
+    @Column(name = "PLAN_ARRIVAL_TIME")
+    private Date planArrivalTime;
 
     @Column(name = "ARRIVAL_TIME")
     private Date arrivalTime;

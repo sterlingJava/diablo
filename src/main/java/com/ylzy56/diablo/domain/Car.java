@@ -1,288 +1,98 @@
 package com.ylzy56.diablo.domain;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Data
 public class Car {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
+    @Column(name = "CREATED_DATE")
+    private Date createdDate;
+
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+
+    @Column(name = "LAST_MODIFIED_DATE")
+    private Date lastModifiedDate;
+
+    @Column(name = "LAST_MODIFIED_BY")
+    private String lastModifiedBy;
+
     /**
-     * ³µÅÆ
+     * è½¦ç‰Œ
      */
     @Column(name = "PLATE_NUMBER")
     private String plateNumber;
 
     /**
-     * ³µÖ÷ĞÕÃû
+     * è½¦ä¸»å§“å
      */
     @Column(name = "NAME")
     private String name;
 
     /**
-     * ÊÖ»úºÅÂë
+     *
      */
     @Column(name = "PHONE")
     private String phone;
 
     /**
-     * ³µÁ¾ÊôĞÔ
+     * è½¦è¾†å±æ€§
      */
     @Column(name = "CAR_PROPERTIES")
     private String carProperties;
 
     /**
-     * ³µ°åÀàĞÍ
+     *è½¦æ¿ç±»å‹
      */
     @Column(name = "PLATE_TYPE")
     private String plateType;
 
     /**
-     * ³µ°å³¤/¿í/¸ß
+     *
      */
     @Column(name = "PLATE_PROPERTIES")
     private String plateProperties;
 
     /**
-     * ×î´óÔØÖØ£¨¶Ö£©
+     *
      */
     @Column(name = "LOAD_MAX")
     private String loadMax;
 
     /**
-     * ×î´óÌå»ı£¨·½£©
+     * æœ€å¤§ä½“ç§¯
      */
     @Column(name = "VOLUME_MAX")
     private String volumeMax;
 
     /**
-     * µ±Ç°Ë¾»ú
+     * å½“å‰å¸æœº
      */
     @Column(name = "CURRENT_DRIVER")
     private String currentDriver;
 
     /**
-     * µ±Ç°Ë¾»úÊÖ»úºÅÂë
+     * å½“å‰å¸æœºæ‰‹æœºå·ç 
      */
     @Column(name = "CURRENT_DRIVER_PHONE")
     private String currentDriverPhone;
 
     /**
-     * À´Ô´
+     * æ¥æº
      */
     @Column(name = "SOURCE")
     private String source;
 
-    /**
-     * @return ID
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Column(name = "ISDEL")
+    private String isDel;
 
-    /**
-     * »ñÈ¡³µÅÆ
-     *
-     * @return PLATE_NUMBER - ³µÅÆ
-     */
-    public String getPlateNumber() {
-        return plateNumber;
-    }
-
-    /**
-     * ÉèÖÃ³µÅÆ
-     *
-     * @param plateNumber ³µÅÆ
-     */
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
-    }
-
-    /**
-     * »ñÈ¡³µÖ÷ĞÕÃû
-     *
-     * @return NAME - ³µÖ÷ĞÕÃû
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * ÉèÖÃ³µÖ÷ĞÕÃû
-     *
-     * @param name ³µÖ÷ĞÕÃû
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * »ñÈ¡ÊÖ»úºÅÂë
-     *
-     * @return PHONE - ÊÖ»úºÅÂë
-     */
-    public String getPhone() {
-        return phone;
-    }
-
-    /**
-     * ÉèÖÃÊÖ»úºÅÂë
-     *
-     * @param phone ÊÖ»úºÅÂë
-     */
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    /**
-     * »ñÈ¡³µÁ¾ÊôĞÔ
-     *
-     * @return CAR_PROPERTIES - ³µÁ¾ÊôĞÔ
-     */
-    public String getCarProperties() {
-        return carProperties;
-    }
-
-    /**
-     * ÉèÖÃ³µÁ¾ÊôĞÔ
-     *
-     * @param carProperties ³µÁ¾ÊôĞÔ
-     */
-    public void setCarProperties(String carProperties) {
-        this.carProperties = carProperties;
-    }
-
-    /**
-     * »ñÈ¡³µ°åÀàĞÍ
-     *
-     * @return PLATE_TYPE - ³µ°åÀàĞÍ
-     */
-    public String getPlateType() {
-        return plateType;
-    }
-
-    /**
-     * ÉèÖÃ³µ°åÀàĞÍ
-     *
-     * @param plateType ³µ°åÀàĞÍ
-     */
-    public void setPlateType(String plateType) {
-        this.plateType = plateType;
-    }
-
-    /**
-     * »ñÈ¡³µ°å³¤/¿í/¸ß
-     *
-     * @return PLATE_PROPERTIES - ³µ°å³¤/¿í/¸ß
-     */
-    public String getPlateProperties() {
-        return plateProperties;
-    }
-
-    /**
-     * ÉèÖÃ³µ°å³¤/¿í/¸ß
-     *
-     * @param plateProperties ³µ°å³¤/¿í/¸ß
-     */
-    public void setPlateProperties(String plateProperties) {
-        this.plateProperties = plateProperties;
-    }
-
-    /**
-     * »ñÈ¡×î´óÔØÖØ£¨¶Ö£©
-     *
-     * @return LOAD_MAX - ×î´óÔØÖØ£¨¶Ö£©
-     */
-    public String getLoadMax() {
-        return loadMax;
-    }
-
-    /**
-     * ÉèÖÃ×î´óÔØÖØ£¨¶Ö£©
-     *
-     * @param loadMax ×î´óÔØÖØ£¨¶Ö£©
-     */
-    public void setLoadMax(String loadMax) {
-        this.loadMax = loadMax;
-    }
-
-    /**
-     * »ñÈ¡×î´óÌå»ı£¨·½£©
-     *
-     * @return VOLUME_MAX - ×î´óÌå»ı£¨·½£©
-     */
-    public String getVolumeMax() {
-        return volumeMax;
-    }
-
-    /**
-     * ÉèÖÃ×î´óÌå»ı£¨·½£©
-     *
-     * @param volumeMax ×î´óÌå»ı£¨·½£©
-     */
-    public void setVolumeMax(String volumeMax) {
-        this.volumeMax = volumeMax;
-    }
-
-    /**
-     * »ñÈ¡µ±Ç°Ë¾»ú
-     *
-     * @return CURRENT_DRIVER - µ±Ç°Ë¾»ú
-     */
-    public String getCurrentDriver() {
-        return currentDriver;
-    }
-
-    /**
-     * ÉèÖÃµ±Ç°Ë¾»ú
-     *
-     * @param currentDriver µ±Ç°Ë¾»ú
-     */
-    public void setCurrentDriver(String currentDriver) {
-        this.currentDriver = currentDriver;
-    }
-
-    /**
-     * »ñÈ¡µ±Ç°Ë¾»úÊÖ»úºÅÂë
-     *
-     * @return CURRENT_DRIVER_PHONE - µ±Ç°Ë¾»úÊÖ»úºÅÂë
-     */
-    public String getCurrentDriverPhone() {
-        return currentDriverPhone;
-    }
-
-    /**
-     * ÉèÖÃµ±Ç°Ë¾»úÊÖ»úºÅÂë
-     *
-     * @param currentDriverPhone µ±Ç°Ë¾»úÊÖ»úºÅÂë
-     */
-    public void setCurrentDriverPhone(String currentDriverPhone) {
-        this.currentDriverPhone = currentDriverPhone;
-    }
-
-    /**
-     * »ñÈ¡À´Ô´
-     *
-     * @return SOURCE - À´Ô´
-     */
-    public String getSource() {
-        return source;
-    }
-
-    /**
-     * ÉèÖÃÀ´Ô´
-     *
-     * @param source À´Ô´
-     */
-    public void setSource(String source) {
-        this.source = source;
-    }
 }

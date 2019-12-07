@@ -99,6 +99,22 @@ public class WayBillController {
             return new Result(true,"添加运单失败");
         }
     }
+    /**
+     * 添加运单（订单转运单）：新增运单时也需要新增相应的账单
+     * @param address
+     * @return
+     */
+    @PostMapping("/saveByOrder")
+    @ApiOperation(value = "添加运单")
+    public Result saveByOrder(Waybill address){
+        try {
+            wayBillService.save(address);
+            return new Result(true,"添加运单成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(true,"添加运单失败");
+        }
+    }
 
     /**
      * 删除运单

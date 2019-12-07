@@ -17,13 +17,13 @@ public class Address {
     private Date createdDate;
 
     @Column(name = "CREATED_BY")
-    private Integer createdBy;
+    private String createdBy;
 
     @Column(name = "LAST_MODIFIED_DATE")
     private Date lastModifiedDate;
 
     @Column(name = "LAST_MODIFIED_BY")
-    private Integer lastModifiedBy;
+    private String lastModifiedBy;
 
     /**
      * 公司名称
@@ -62,8 +62,8 @@ public class Address {
     private String detailedAddress;
 
 
-    @Column(name = "CREATED")
-    private String created;
+    @Column(name = "SOURCE")
+    private String source;
 
     @Column(name = "ISDEL")
     private String isDel;

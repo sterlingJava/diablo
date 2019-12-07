@@ -18,6 +18,7 @@ import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +30,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<Address> findAll() {
+        Example example = new Example(Address.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel",0);
         return addressMapper.selectAll();
     }
 
@@ -39,7 +43,39 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public int save(Address address) {
+        address.setIsDel("0");
+        address.setCreatedDate(new Date());
         return addressMapper.insert(address);
+    }
+
+    @Override
+    public int update(Address address) {
+        address.setLastModifiedDate(new Date());
+        return addressMapper.updateByPrimaryKey(address);
+    }
+
+    @Override
+    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Example example = new Example(Address.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel","0");
+        if (keyword != null && keyword.length() > 0) {
+//            criteria.andLike("linkman","%" + keyword + "%");
+//            criteria.orLike("linkman", "%" + keyword + "%").orLike("area", "%" + keyword + "%");
+        }
+        Page<Address> page = (Page<Address>) addressMapper.selectByExample(example);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public List<Address> searchNoPage(String keyword) {
+        Example example = new Example(Address.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (keyword != null && keyword.length() > 0) {
+//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
+        }
+        return  addressMapper.selectByExample(example);
     }
 
     @Override
@@ -48,13 +84,9 @@ public class AddressServiceImpl implements AddressService {
         if (ObjectUtils.isEmpty(address)){
             throw new RuntimeException("不存在这条数据");
         }
-
-        return 0;
-    }
-
-    @Override
-    public int update(Address address) {
-        return addressMapper.updateByPrimaryKey(address);
+        address.setIsDel("1");
+        address.setLastModifiedDate(new Date());
+        return update(address);
     }
 
     @Override
@@ -71,37 +103,10 @@ public class AddressServiceImpl implements AddressService {
             address.setAddressType(lo.get(4));
             address.setArea(lo.get(5));
             address.setDetailedAddress(lo.get(6));
-            address.setCreated(lo.get(7));
-            addressMapper.insert(address);
+            address.setSource(lo.get(7));
+            save(address);
         }
 
 
-
-
-
-
-    }
-
-    @Override
-    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example example = new Example(Address.class);
-        Example.Criteria criteria = example.createCriteria();
-//        if (keyword != null && keyword.length() > 0) {
-//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
-//        }
-        Page<Address> page = (Page<Address>) addressMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
-    }
-
-    @Override
-    public PageResult searchNoPage(String keyword) {
-        Example example = new Example(Address.class);
-        Example.Criteria criteria = example.createCriteria();
-//        if (keyword != null && keyword.length() > 0) {
-//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
-//        }
-        Page<Address> page = (Page<Address>) addressMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
     }
 }
