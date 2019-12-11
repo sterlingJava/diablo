@@ -8,6 +8,7 @@ import com.ylzy56.diablo.service.EnterpriseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,7 @@ public class EnterpriseController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除企业")
-    public Result delete(int enterpriseId) {
+    public Result delete(String enterpriseId) {
         try {
             enterpriseService.delete(enterpriseId);
             return new Result(true, "删除企业成功");
@@ -85,7 +86,7 @@ public class EnterpriseController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "根据id查询企业信息")
-    public Enterprise findById(int enterpriseId) {
+    public Enterprise findById(String enterpriseId) {
         try {
             return enterpriseService.findById(enterpriseId);
         } catch (Exception e) {
@@ -94,21 +95,6 @@ public class EnterpriseController {
         }
     }
 
-    /**
-     * 查询所有企业信息
-     *
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有企业信息")
-    public List<Enterprise> findAll() {
-        try {
-            return enterpriseService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * 审核企业信息
@@ -118,7 +104,7 @@ public class EnterpriseController {
      */
     @GetMapping("/updateStatus")
     @ApiOperation(value = "审核企业信息")
-    public Result updateStatus(int enterpriseId, String status,String remark) {
+    public Result updateStatus(String enterpriseId, String status,String remark) {
         try {
             enterpriseService.updateStatus(enterpriseId, status,remark);
             return new Result(true, "审核企业成功");
@@ -135,7 +121,7 @@ public class EnterpriseController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询企业列表")
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
         try {
             return enterpriseService.searchPage(condition, pageNum, pageSize);
         } catch (Exception e) {

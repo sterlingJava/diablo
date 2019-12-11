@@ -10,15 +10,15 @@ import java.util.List;
 public interface CustomerService {
     List<Customer> findAll();
 
-    PageResult findPage(int pageNum, int pageSize);
+    PageResult findPage(Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, int pageNum, int pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 
-    Customer findById(int customerId);
+    Customer findById(String customerId);
 
     void save(Customer customer);
 
-    void delete(int customerId);
+    void delete(String customerId);
 
     void update(Customer customer);
 

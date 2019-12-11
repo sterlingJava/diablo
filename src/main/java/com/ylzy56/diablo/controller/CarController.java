@@ -40,7 +40,7 @@ public class CarController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询车辆")
-    public PageResult searchPage(String keyword, int pageNum, int pageSize){
+    public PageResult searchPage(String keyword, Integer pageNum, Integer pageSize){
         try {
             return carService.searchPage(keyword,pageNum,pageSize);
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class CarController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定车辆")
-    public Car findById(int id) {
+    public Car findById(String id) {
         try {
             return carService.findById(id);
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class CarController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除车辆")
-    public Result delete(int id){
+    public Result delete(String id){
         try {
             carService.delete(id);
             return new Result(true,"删除车辆成功");

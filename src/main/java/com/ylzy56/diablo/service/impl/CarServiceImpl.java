@@ -28,27 +28,33 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findById(int id) {
+    public Car findById(String id) {
 
         return carMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public int save(Car car) {
+    public void save(Car car) {
 
         car.setCreatedDate(new Date());
 //        car.setIsDel("0");
-        return carMapper.insertSelective(car);
+         carMapper.insertSelective(car);
     }
 
     @Override
-    public int update(Car car) {
+    public void update(Car car) {
         car.setLastModifiedDate(new Date());
-        return carMapper.updateByPrimaryKey(car);
+         carMapper.updateByPrimaryKey(car);
     }
 
     @Override
-    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
+    public PageResult searchPage(String keyword, Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(Address.class);
         Example.Criteria criteria = example.createCriteria();
@@ -75,14 +81,14 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public int delete(int id) {
+    public void delete(String id) {
         Car car = findById(id);
         if (ObjectUtils.isEmpty(car)) {
             throw new RuntimeException("不存在这条数据");
         }
         car.setIsDel("1");
         car.setLastModifiedDate(new Date());
-        return update(car);
+        update(car);
     }
 
     @Override

@@ -37,25 +37,31 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address findById(int id) {
+    public Address findById(String id) {
         return addressMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public int save(Address address) {
+    public void save(Address address) {
         address.setIsDel("0");
         address.setCreatedDate(new Date());
-        return addressMapper.insert(address);
+         addressMapper.insertSelective(address);
     }
 
     @Override
-    public int update(Address address) {
+    public void update(Address address) {
         address.setLastModifiedDate(new Date());
-        return addressMapper.updateByPrimaryKey(address);
+         addressMapper.updateByPrimaryKey(address);
     }
 
     @Override
-    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
+    public PageResult searchPage(String keyword, Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(Address.class);
         Example.Criteria criteria = example.createCriteria();
@@ -79,14 +85,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public int delete(int id) {
+    public void delete(String id) {
         Address address = findById(id);
         if (ObjectUtils.isEmpty(address)){
             throw new RuntimeException("不存在这条数据");
         }
         address.setIsDel("1");
         address.setLastModifiedDate(new Date());
-        return update(address);
+         update(address);
     }
 
     @Override

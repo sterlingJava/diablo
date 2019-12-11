@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserInfo findById(int userId) {
+    public UserInfo findById(String userId) {
         //1.根据用户id查询用户信息
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
@@ -85,9 +85,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserInfo userInfo) {
         userInfo.setCreateTime(new Date());
-        userInfo.setStatus("0");
         userInfo.setIsDel("0");
-        userDao.insert(userInfo);
+        userDao.insertSelective(userInfo);
     }
 
     /**
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public void delete(int userId) {
+    public void delete(String userId) {
         //1.删除用户角色关联表信息
         UserRoleDao.delete(new UserRole() {{
             setUserId(userId);
@@ -111,9 +110,8 @@ public class UserServiceImpl implements UserService {
         if (!ObjectUtils.isEmpty(userInfo)) {
             userInfo.setIsDel("1");
             //2.删除用户信息
-            userDao.updateByPrimaryKey(userInfo);
+            userDao.updateByPrimaryKeySelective(userInfo);
         }
-
     }
 
     /**
@@ -126,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public void update(UserInfo userInfo) {
         //添加修改时间
         userInfo.setLastModifyTime(new Date());
-        userDao.updateByPrimaryKey(userInfo);
+        userDao.updateByPrimaryKeySelective(userInfo);
 
     }
 
@@ -138,12 +136,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public void addRoleToUser(int userId, int roleId) {
+    public void addRoleToUser(String userId, String roleId) {
         //在用户角色关联表插入一条记录
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
         userRole.setRoleId(roleId);
-        UserRoleDao.insert(userRole);
+        UserRoleDao.insertSelective(userRole);
 
     }
 
@@ -155,7 +153,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public void deleteRoleFromUser(int userId, int roleId) {
+    public void deleteRoleFromUser(String userId, String roleId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
         userRole.setRoleId(roleId);
@@ -163,14 +161,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult findPage(int pageNum, int pageSize) {
+    public PageResult findPage(Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         PageHelper.startPage(pageNum, pageSize);
         Page<UserInfo> page = (Page<UserInfo>) findAll();
         return new PageResult(page.getTotal(), page.getResult());
     }
 
     @Override
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
@@ -181,7 +191,9 @@ public class UserServiceImpl implements UserService {
         if (!StringUtil.isEmpty(condition.getStatus())){
             criteria.andEqualTo("status",condition.getStatus());
         }
-        criteria.andEqualTo("isDel",0);
+        Example.Criteria exampleCriteria = example.createCriteria();
+        exampleCriteria.andEqualTo("isDel","0");
+        example.and(exampleCriteria);
         Page<UserInfo> page = (Page<UserInfo>) userDao.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
     }
@@ -202,30 +214,65 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo findByMobile(String mobile) {
+    public UserInfo findByMobile(String username) {
         //1.根据手机号查询用户信息
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("mobile",mobile);
+        criteria.andEqualTo("username",username);
         criteria.andEqualTo("isDel","0");
-        return userDao.selectOneByExample(example);
+        UserInfo userInfo = userDao.selectOneByExample(example);
+        /*//2.根据用户id查询用包含的角色列表
+        if (userInfo != null) {
+            List<Role> roleList = roleService.findRolesByUserId(userInfo.getUserId());
+            //3.遍历角色列表,根据角色id查询出包含的权限信息
+            for (Role role : roleList) {
+                List<Permission> permissionList = permissionService.findPermissionsByRoleId(role.getRoleId());
+                role.setPermissions(permissionList);
+            }
+            userInfo.setRoles(roleList);
+        }*/
+        return userInfo;
     }
 
     @Override
-    public boolean checkIsDel(int userId) {
+    public UserInfo findByName(String username) {
+        //1.根据手机号查询用户信息
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username",username);
+        criteria.andEqualTo("isDel","0");
+        UserInfo userInfo = userDao.selectOneByExample(example);
+        //2.根据用户id查询用包含的角色列表
+        if (userInfo != null) {
+            List<Role> roleList = roleService.findRolesByUserId(userInfo.getUserId());
+            //3.遍历角色列表,根据角色id查询出包含的权限信息
+            for (Role role : roleList) {
+                List<Permission> permissionList = permissionService.findPermissionsByRoleId(role.getRoleId());
+                role.setPermissions(permissionList);
+            }
+            userInfo.setRoles(roleList);
+        }
+        return userInfo;
+    }
+
+    /**
+     * 根据用户id查询用户状态
+     * @param userId
+     * @return 正常为true
+     */
+    @Override
+    public boolean checkUserStatus(String userId) {
         //1.根据用户id查询用户信息
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId",userId);
+        criteria.andEqualTo("status","0");
+        criteria.andEqualTo("isDel","0");
         UserInfo userInfo = userDao.selectOneByExample(example);
         if (ObjectUtils.isEmpty(userInfo)){
             return false;
         }else {
-            if ("0".equals(userInfo.getIsDel())){
-                return true;
-            }else {
-                return false;
-            }
+            return true;
         }
     }
 }

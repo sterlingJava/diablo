@@ -8,20 +8,22 @@ import java.util.List;
 
 public interface UserService {
     List<UserInfo> findAll();
-    UserInfo findById(int userId);
+    UserInfo findById(String userId);
     void save(UserInfo userInfo);
-    void delete(int userId);
+    void delete(String userId);
     void update(UserInfo userInfo);
-    void addRoleToUser(int userId, int roleId);
-    void deleteRoleFromUser(int userId, int roleId);
+    void addRoleToUser(String userId, String roleId);
+    void deleteRoleFromUser(String userId, String roleId);
 
-    PageResult findPage(int pageNum, int pageSize);
+    PageResult findPage(Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, int pageNum, int pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 
     List<UserInfo> searchUserInfo(Condition condition);
 
     UserInfo findByMobile(String mobile);
 
-    boolean checkIsDel(int userId);
+    boolean checkUserStatus(String userId);
+
+    UserInfo findByName(String s);
 }

@@ -3,17 +3,17 @@ package com.ylzy56.diablo.service.impl;
 import com.ylzy56.diablo.dao.PermissionMapper;
 import com.ylzy56.diablo.dao.RoleMapper;
 import com.ylzy56.diablo.dao.RolePermissionMapper;
-import com.ylzy56.diablo.domain.Permission;
-import com.ylzy56.diablo.domain.Role;
-import com.ylzy56.diablo.domain.RolePermission;
+import com.ylzy56.diablo.domain.*;
 import com.ylzy56.diablo.service.PermissionService;
 import com.ylzy56.diablo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,9 +25,14 @@ public class PermissionServiceImpl implements PermissionService {
     @Autowired(required = false)
     private RolePermissionMapper rolePermissionDao;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
-    public int save(Permission permission) {
-        return permissionDao.insert(permission);
+    public void save(Permission permission) {
+        permission.setCreateTime(new Date());
+        permission.setIsDel("0");
+        permissionDao.insertSelective(permission);
     }
 
     /**
@@ -37,17 +42,21 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public int delete(int permissionId) {
-        try {
-            //1.删除角色权限关联表记录
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setPermissionId(permissionId);
-            rolePermissionDao.delete(rolePermission);
-            //2.删除权限表记录
-            return permissionDao.deleteByPrimaryKey(permissionId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+    public void delete(String permissionId) {
+        //1.删除角色权限关联表记录
+        rolePermissionDao.delete(new RolePermission() {{
+            setRoleId(permissionId);
+        }});
+        //2.查询需要删除的权限
+        Example example = new Example(Permission.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("permissionId", permissionId);
+        criteria.andEqualTo("isDel", "0");
+        Permission permission = permissionDao.selectOneByExample(example);
+        if (!ObjectUtils.isEmpty(permission)) {
+            permission.setIsDel("1");
+            //2.删除权限信息
+            permissionDao.updateByPrimaryKeySelective(permission);
         }
     }
 
@@ -58,13 +67,9 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public int update(Permission permission) {
-        try {
-            return permissionDao.updateByPrimaryKey(permission);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    public void update(Permission permission) {
+        permission.setLastModifyTime(new Date());
+        permissionDao.updateByPrimaryKeySelective(permission);
     }
 
     /**
@@ -74,13 +79,11 @@ public class PermissionServiceImpl implements PermissionService {
      */
     @Override
     public List<Permission> findAll() {
-        List<Permission> permissionList = null;
-        try {
-            permissionList = permissionDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return permissionList;
+        Example example = new Example(Permission.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDel","0");
+        return permissionDao.selectByExample(example);
+
     }
 
     /**
@@ -90,14 +93,12 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public Permission findById(int permissionId) {
-        Permission permission = null;
-        try {
-            permission = permissionDao.selectByPrimaryKey(permissionId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return permission;
+    public Permission findById(String permissionId) {
+        Example example = new Example(Permission.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("permissionId",permissionId);
+        criteria.andEqualTo("isDel","0");
+        return permissionDao.selectOneByExample(example);
     }
 
     /**
@@ -107,17 +108,19 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public List<Permission> findPermissionsByRoleId(int roleId) {
+    public List<Permission> findPermissionsByRoleId(String roleId) {
         List<Permission> permissionList = new ArrayList<>();
         try {
-            //1.根据角色id查询出包含的权限id列表
-            List<RolePermission> rolePermissionList = rolePermissionDao.select(new RolePermission() {{
-                setRoleId(roleId);
-            }});
-            //2.遍历权限id列表,查询权限详情
-            for (RolePermission rolePermission : rolePermissionList) {
-                Permission permission = permissionDao.selectByPrimaryKey(rolePermission.getPermissionId());
-                permissionList.add(permission);
+            if (roleService.checkRoleStatus(roleId)) {
+                //1.根据角色id查询出包含的权限id列表
+                List<RolePermission> rolePermissionList = rolePermissionDao.select(new RolePermission() {{
+                    setRoleId(roleId);
+                }});
+                //2.遍历权限id列表,查询权限详情
+                for (RolePermission rolePermission : rolePermissionList) {
+                    Permission permission = findById(rolePermission.getPermissionId());
+                    permissionList.add(permission);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,22 +135,26 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public List<Permission> findOtherPermissions(int roleId) {
+    public List<Permission> findOtherPermissions(String roleId) {
         List<Permission> permissionList = null;
-        List<Integer> permissionIdList = new ArrayList();
         try {
-            List<RolePermission> rolePermissionList = rolePermissionDao.select(new RolePermission() {{
-                setRoleId(roleId);
-            }});
-            for (RolePermission rolePermission : rolePermissionList) {
-                permissionIdList.add(rolePermission.getPermissionId());
-            }
-            if (permissionIdList.size() == 0) {
-                permissionList = permissionDao.selectAll();
-            } else {
-                Example example = new Example(Permission.class);
-                example.createCriteria().andNotIn("permissionId", permissionIdList);
-                permissionList = permissionDao.selectByExample(example);
+            if (roleService.checkRoleStatus(roleId)) {
+                List<String> permissionIdList = new ArrayList();
+                List<RolePermission> rolePermissionList = rolePermissionDao.select(new RolePermission() {{
+                    setRoleId(roleId);
+                }});
+                for (RolePermission rolePermission : rolePermissionList) {
+                    permissionIdList.add(rolePermission.getPermissionId());
+                }
+                if (permissionIdList.size() == 0) {
+                    permissionList = findAll();
+                } else {
+                    Example example = new Example(Permission.class);
+                    Example.Criteria criteria = example.createCriteria();
+                    criteria.andNotIn("permissionId", permissionIdList);
+                    criteria.andEqualTo("isDel", "0");
+                    permissionList = permissionDao.selectByExample(example);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

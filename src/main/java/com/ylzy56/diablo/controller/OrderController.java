@@ -44,7 +44,7 @@ public class OrderController {
      */
     @GetMapping("/findPage")
     @ApiOperation(value = "分页查询订单列表")
-    public PageResult findPage(int pageNum, int pageSize){
+    public PageResult findPage(Integer pageNum, Integer pageSize){
         try {
             return orderService.findPage(pageNum,pageSize);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class OrderController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询订单列表")
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
         try {
             return orderService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class OrderController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定订单信息")
-    public Order findById(int orderId){
+    public Order findById(String orderId){
         try {
             return orderService.findById(orderId);
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class OrderController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除订单")
-    public Result delete(int orderId){
+    public Result delete(String orderId){
         try {
             orderService.delete(orderId);
             return new Result(true,"删除订单成功");

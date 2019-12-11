@@ -9,15 +9,15 @@ import java.util.List;
 public interface OrderService {
     List<Order> findAll();
 
-    PageResult findPage(int pageNum, int pageSize);
+    PageResult findPage(Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, int pageNum, int pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 
-    Order findById(int orderId);
+    Order findById(String orderId);
 
     void save(Order order);
 
-    void delete(int orderId);
+    void delete(String orderId);
 
     void update(Order order);
 }

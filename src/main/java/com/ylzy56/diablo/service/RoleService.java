@@ -10,25 +10,24 @@ import java.util.List;
 public interface RoleService {
     void save(Role role);
 
-    void delete(int roleId);
+    void delete(String roleId);
 
     void update(Role role);
 
     List<Role> findAll();
 
-    Role findById(int roleId);
+    Role findById(String roleId);
 
-    void addPermissionToRole(int roleId, int permissionId);
+    void addPermissionToRole(String roleId, String permissionId);
 
-    void deletePermissionFromRole(int roleId, int permissionId);
+    void deletePermissionFromRole(String roleId, String permissionId);
 
-    List<Role> findRolesByUserId(int userId);
+    List<Role> findRolesByUserId(String userId);
 
-    List<Role> findOtherRoles(int userId);
+    List<Role> findOtherRoles(String userId);
 
-    PageResult findPage(int pageNum, int pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, int pageNum, int pageSize);
+    boolean checkRoleStatus(String roleId);
 
-    List<Role> searchRole(Condition condition);
 }

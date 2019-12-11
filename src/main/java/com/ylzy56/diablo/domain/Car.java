@@ -1,6 +1,8 @@
 package com.ylzy56.diablo.domain;
 
+import com.ylzy56.diablo.domain.entity.UUIdGenId;
 import lombok.Data;
+import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,8 +11,8 @@ import java.util.Date;
 public class Car {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @KeySql(genId = UUIdGenId.class)
+    private String id;
 
 
     @Column(name = "CREATED_DATE")
@@ -24,6 +26,12 @@ public class Car {
 
     @Column(name = "LAST_MODIFIED_BY")
     private String lastModifiedBy;
+
+    /**
+     * 企业id
+     */
+    @Column(name = "enterprise_id")
+    private String enterpriseId;
 
     /**
      * 车牌

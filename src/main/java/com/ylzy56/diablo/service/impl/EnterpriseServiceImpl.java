@@ -6,17 +6,22 @@ import com.ylzy56.diablo.dao.EnterpriseMapper;
 import com.ylzy56.diablo.dao.UserInfoMapper;
 import com.ylzy56.diablo.domain.Enterprise;
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.UserRole;
 import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.EnterpriseService;
+import com.ylzy56.diablo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class EnterpriseServiceImpl implements EnterpriseService {
 
     @Autowired(required = false)
@@ -25,78 +30,90 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Autowired(required = false)
     private UserInfoMapper userInfoDao;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void save(Enterprise enterprise) {
         enterprise.setStatus("0");
         enterprise.setIsDel("0");
-        enterpriseDao.insert(enterprise);
-        UserInfo userInfo = new UserInfo();
+        enterpriseDao.insertSelective(enterprise);
+        UserInfo userInfo = userService.findByMobile(enterprise.getMobile());
         userInfo.setUsername(enterprise.getCorpName());
-        userInfo.setMobile(enterprise.getMobile());
         userInfo.setEnterpriseId(enterprise.getEnterpriseId());
-        userInfo.setPassword(enterprise.getPassword());
         userInfo.setLevel("0");
-        userInfo.setStatus("1");
-        userInfo.setIsDel("0");
-        userInfoDao.insert(userInfo);
+        userInfoDao.updateByPrimaryKeySelective(userInfo);
     }
 
     @Override
-    public void delete(int enterpriseId) {
-        enterpriseDao.deleteByPrimaryKey(enterpriseId);
+    public void delete(String enterpriseId) {
+        //1.查询需要删除的用户企业
+        Example example = new Example(Enterprise.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enterpriseId",enterpriseId);
+        criteria.andEqualTo("isDel","0");
+        Enterprise enterprise = enterpriseDao.selectOneByExample(example);
+        if (!ObjectUtils.isEmpty(enterprise)) {
+            enterprise.setIsDel("1");
+            //2.删除企业信息
+            enterpriseDao.updateByPrimaryKeySelective(enterprise);
+        }
     }
 
     @Override
     public void update(Enterprise enterprise) {
-        enterpriseDao.updateByPrimaryKey(enterprise);
+        enterpriseDao.updateByPrimaryKeySelective(enterprise);
     }
 
     @Override
-    public Enterprise findById(int enterpriseId) {
-        Enterprise enterprise = null;
-        try {
-            enterprise = enterpriseDao.selectByPrimaryKey(enterpriseId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Enterprise findById(String enterpriseId) {
+        //1.根据id查询企业信息
+        Example example = new Example(Enterprise.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enterpriseId",enterpriseId);
+        criteria.andEqualTo("isDel","0");
+        Enterprise enterprise = enterpriseDao.selectOneByExample(example);
         return enterprise;
     }
 
     @Override
-    public List<Enterprise> findAll() {
-        List<Enterprise> enterpriseList = null;
-        try {
-            enterpriseList = enterpriseDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return enterpriseList;
-    }
-
-    @Override
-    public int updateStatus(int enterpriseId, String status,String remark) {
+    public void updateStatus(String enterpriseId, String status,String remark) {
         try {
             Enterprise enterprise = enterpriseDao.selectByPrimaryKey(enterpriseId);
             if (enterprise != null) {
                 enterprise.setStatus(status);
                 enterprise.setNotes(remark);
-                if ("1".equals(status)) {
-                    UserInfo userInfo = userInfoDao.selectOne(new UserInfo() {{
-                        setEnterpriseId(enterpriseId);
-                    }});
-                    userInfo.setStatus("0");
-                    userInfoDao.updateByPrimaryKey(userInfo);
+                //1.根据企业id查询用户信息
+                Example example = new Example(UserInfo.class);
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andEqualTo("enterpriseId",enterpriseId);
+                criteria.andEqualTo("isDel","0");
+                UserInfo userInfo = userInfoDao.selectOneByExample(example);
+                if (!ObjectUtils.isEmpty(userInfo)) {
+                    if ("1".equals(status)) {
+                        userInfo.setStatus("0");
+                        userInfoDao.updateByPrimaryKeySelective(userInfo);
+                    }
+                    if ("2".equals(status)){
+                        userInfo.setStatus("1");
+                        userInfoDao.updateByPrimaryKeySelective(userInfo);
+                    }
                 }
             }
-            return enterpriseDao.updateByPrimaryKey(enterprise);
+            enterpriseDao.updateByPrimaryKeySelective(enterprise);
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
         }
     }
 
     @Override
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         PageHelper.startPage(pageNum, pageSize);
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();

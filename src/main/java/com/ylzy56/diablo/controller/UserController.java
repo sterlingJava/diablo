@@ -9,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.util.StringUtil;
 
@@ -19,26 +21,12 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "User")
+@Api(value = "用户")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * 查询所有用户列表
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有用户列表")
-    public List<UserInfo> findAll(){
-        try {
-            return userService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * 分页查询用户列表
@@ -46,7 +34,7 @@ public class UserController {
      */
     @GetMapping("/findPage")
     @ApiOperation(value = "分页查询用户列表")
-    public PageResult findPage(int pageNum, int pageSize){
+    public PageResult findPage(Integer pageNum, Integer pageSize){
         try {
             return userService.findPage(pageNum,pageSize);
         } catch (Exception e) {
@@ -76,8 +64,10 @@ public class UserController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询用户列表")
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
         try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println("hhhhhhhhhhhhhhhh          "+name);
             return userService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +82,7 @@ public class UserController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定用户信息")
-    public UserInfo findById(int userId){
+    public UserInfo findById(String userId){
         try {
             return userService.findById(userId);
         } catch (Exception e) {
@@ -122,7 +112,7 @@ public class UserController {
      * @param userInfo
      * @return
      */
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "添加用户")
     public Result save(UserInfo userInfo){
         try {
@@ -139,9 +129,9 @@ public class UserController {
      * @param userId
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping
     @ApiOperation(value = "删除用户")
-    public Result delete(int userId){
+    public Result delete(String userId){
         try {
             userService.delete(userId);
             return new Result(true,"删除用户成功");
@@ -156,7 +146,7 @@ public class UserController {
      * @param userInfo
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "更新用户")
     public Result update(UserInfo userInfo){
         try {
@@ -173,11 +163,13 @@ public class UserController {
      * @param userId,roleId
      * @return
      */
-    @GetMapping("/addRoleToUser")
+    @PutMapping("/addRoleToUser")
     @ApiOperation(value = "给指定用户添加角色")
-    public Result addRoleToUser(int userId,int roleId){
+    public Result addRoleToUser(String userId,String[] roleIds){
         try {
-            userService.addRoleToUser(userId,roleId);
+            for (String roleId : roleIds) {
+                userService.addRoleToUser(userId, roleId);
+            }
             return new Result(true,"添加角色成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,59 +182,17 @@ public class UserController {
      * @param userId,roleId
      * @return
      */
-    @GetMapping("/deleteRoleFromUser")
+    @PutMapping("/deleteRoleFromUser")
     @ApiOperation(value = "给指定用户删除角色")
-    public Result deleteRoleFromUser(int userId,int roleId){
+    public Result deleteRoleFromUser(String userId,String[] roleIds){
         try {
-            userService.deleteRoleFromUser(userId,roleId);
+            for (String roleId : roleIds) {
+                userService.deleteRoleFromUser(userId, roleId);
+            }
             return new Result(true,"删除角色成功");
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false,"删除角色失败");
-        }
-    }
-
-    @GetMapping("/sendSms")
-    @ApiOperation(value = "发送短信验证码")
-    public Result sendSms(HttpServletRequest request, String moblie) {
-        try {
-            //查询手机号是否注册
-            Condition condition = new Condition();
-            condition.setKeyword(moblie);
-            List<UserInfo> userInfoList = searchUserInfo(condition);
-            if (userInfoList.size() == 0) {
-                //生成6位验证码
-                String smscode = (long) (Math.random() * 1000000) + "";
-                System.out.println(smscode);
-                //发送短信
-
-                //将验证码存到session
-                HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(5 * 60);
-                // 将认证码存入SESSION
-                session.setAttribute(moblie, smscode);
-                return new Result(true,"已发送验证码!");
-            }else {
-                return new Result(true,"手机号存在!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false,"发送验证码失败!");
-        }
-    }
-
-    @GetMapping("/checkSms")
-    @ApiOperation(value = "校验短信验证码")
-    public Result checkSms(HttpServletRequest request, String mobile, String code) {
-        String smsCode = (String) request.getSession().getAttribute(mobile);
-        if (!StringUtil.isEmpty(smsCode)) {
-            if (smsCode.equals(code)) {
-                return new Result(true, "验证码正确!");
-            } else {
-                return new Result(false, "验证码错误!");
-            }
-        }else {
-            return new Result(false, "验证码无效,请重新获取!");
         }
     }
 }

@@ -9,14 +9,14 @@ import java.util.List;
 public interface CarService {
 
     List<Car> findAll();
-    Car findById(int id);
-    int save(Car car);
-    int delete(int id);
-    int update(Car car);
+    Car findById(String id);
+    void save(Car car);
+    void delete(String id);
+    void update(Car car);
 
     void lead(List<List<String>> list);
 
-    PageResult searchPage(String keyword, int pageNum, int pageSize);
+    PageResult searchPage(String keyword, Integer pageNum, Integer pageSize);
 
     PageResult searchNoPage(String keyword);
 

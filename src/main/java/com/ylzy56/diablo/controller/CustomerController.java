@@ -43,7 +43,7 @@ public class CustomerController {
      */
     @GetMapping("/findPage")
     @ApiOperation(value = "分页查询客户列表")
-    public PageResult findPage(int pageNum, int pageSize){
+    public PageResult findPage(Integer pageNum, Integer pageSize){
         try {
             return customerService.findPage(pageNum,pageSize);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class CustomerController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询客户列表")
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize){
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
         try {
             return customerService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class CustomerController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定客户信息")
-    public Customer findById(int customerId){
+    public Customer findById(String customerId){
         try {
             return customerService.findById(customerId);
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class CustomerController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除客户")
-    public Result delete(int customerId){
+    public Result delete(String customerId){
         try {
             customerService.delete(customerId);
             return new Result(true,"删除客户成功");

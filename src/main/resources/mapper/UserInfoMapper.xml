@@ -6,9 +6,9 @@
       WARNING - @mbg.generated
     -->
     <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="status" jdbcType="VARCHAR" property="status" />

@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface EnterpriseService {
     void save(Enterprise enterprise);
-    void delete(int enterpriseId);
+    void delete(String enterpriseId);
     void update(Enterprise enterprise);
-    Enterprise findById(int enterpriseId);
-    List<Enterprise> findAll();
+    Enterprise findById(String enterpriseId);
 
-    int updateStatus(int enterpriseId, String status,String remark);
+    void updateStatus(String enterpriseId, String status,String remark);
 
-    PageResult searchPage(Condition condition, int pageNum, int pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 }

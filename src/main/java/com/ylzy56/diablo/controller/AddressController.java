@@ -42,7 +42,7 @@ public class AddressController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询地址")
-    public PageResult searchPage(String keyword,int pageNum, int pageSize){
+    public PageResult searchPage(String keyword,Integer pageNum, Integer pageSize){
         try {
             return addressService.searchPage(keyword,pageNum,pageSize);
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class AddressController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定地址")
-    public Address findById(int id){
+    public Address findById(String id){
         try {
             return addressService.findById(id);
         } catch (Exception e) {
@@ -107,7 +107,7 @@ public class AddressController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除地址")
-    public Result delete(int id){
+    public Result delete(String id){
         try {
             addressService.delete(id);
             return new Result(true,"删除地址成功");

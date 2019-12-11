@@ -5,6 +5,8 @@ import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.CustomerService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
 import java.util.List;
 
 @Service
@@ -16,17 +18,29 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public PageResult findPage(int pageNum, int pageSize) {
+    public PageResult findPage(Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         return null;
     }
 
     @Override
-    public PageResult searchPage(Condition condition, int pageNum, int pageSize) {
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
+        if (ObjectUtils.isEmpty(pageNum)){
+            pageNum=1;
+        }
+        if (ObjectUtils.isEmpty(pageSize)){
+            pageSize=10;
+        }
         return null;
     }
 
     @Override
-    public Customer findById(int customerId) {
+    public Customer findById(String customerId) {
         return null;
     }
 
@@ -36,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void delete(int customerId) {
+    public void delete(String customerId) {
 
     }
 

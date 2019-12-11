@@ -10,14 +10,14 @@ import java.util.List;
 public interface AddressService {
 
     List<Address> findAll();
-    Address findById(int id);
-    int save(Address address);
-    int delete(int id);
-    int update(Address address);
+    Address findById(String id);
+    void save(Address address);
+    void delete(String id);
+    void update(Address address);
 
     void lead(List<List<String>> list);
 
-    PageResult searchPage(String keyword, int pageNum, int pageSize);
+    PageResult searchPage(String keyword, Integer pageNum, Integer pageSize);
 
     List<Address> searchNoPage(String keyword);
 
