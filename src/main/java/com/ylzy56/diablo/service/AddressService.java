@@ -3,6 +3,7 @@ package com.ylzy56.diablo.service;
 import com.ylzy56.diablo.domain.Address;
 import com.ylzy56.diablo.domain.Role;
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public interface AddressService {
 
     void lead(List<List<String>> list);
 
-    PageResult searchPage(String keyword, Integer pageNum, Integer pageSize);
+    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
 
     List<Address> searchNoPage(String keyword);
+
+    List<Address> findAddressByOrderId(String orderId);
 
 }

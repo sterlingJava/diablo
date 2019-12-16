@@ -9,16 +9,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/enterprise")
-@Api(value = "Enterprise")
+@Api(value = "/enterprise",description = "企业接口")
 public class EnterpriseController {
 
     @Autowired
@@ -30,7 +27,7 @@ public class EnterpriseController {
      * @param enterprise
      * @return
      */
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "添加企业")
     public Result save(Enterprise enterprise) {
         try {
@@ -38,7 +35,7 @@ public class EnterpriseController {
             return new Result(true, "添加企业成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true, "添加企业失败");
+            return new Result(false, "添加企业失败");
         }
     }
 
@@ -48,7 +45,7 @@ public class EnterpriseController {
      * @param enterpriseId
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping
     @ApiOperation(value = "删除企业")
     public Result delete(String enterpriseId) {
         try {
@@ -56,7 +53,7 @@ public class EnterpriseController {
             return new Result(true, "删除企业成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true, "删除企业失败");
+            return new Result(false, "删除企业失败");
         }
     }
 
@@ -66,7 +63,7 @@ public class EnterpriseController {
      * @param enterprise
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping
     @ApiOperation(value = "修改企业信息")
     public Result update(Enterprise enterprise) {
         try {
@@ -74,7 +71,7 @@ public class EnterpriseController {
             return new Result(true, "更新企业成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true, "更新企业失败");
+            return new Result(false, "更新企业失败");
         }
     }
 
@@ -102,7 +99,7 @@ public class EnterpriseController {
      * @param status
      * @return
      */
-    @GetMapping("/updateStatus")
+    @PutMapping ("/updateStatus")
     @ApiOperation(value = "审核企业信息")
     public Result updateStatus(String enterpriseId, String status,String remark) {
         try {
@@ -110,7 +107,7 @@ public class EnterpriseController {
             return new Result(true, "审核企业成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true, "审核企业失败");
+            return new Result(false, "审核企业失败");
         }
     }
 

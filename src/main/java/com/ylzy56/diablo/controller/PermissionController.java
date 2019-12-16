@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/permission")
-@Api(value = "权限")
+@Api(value = "/permission",description = "权限接口")
 public class PermissionController {
 
     @Autowired
@@ -78,6 +79,16 @@ public class PermissionController {
     @ApiOperation(value = "查询所有权限")
     public List<Permission> findAll(){
         return permissionService.findAll();
+    }
+
+    /**
+     * 按层级查询所有权限
+     * @return
+     */
+    @GetMapping("/findAllByGrade")
+    @ApiOperation(value = "按层级查询所有权限")
+    public List<Permission> findAllByGrade(){
+        return permissionService.findAllByGrade();
     }
 
     /**

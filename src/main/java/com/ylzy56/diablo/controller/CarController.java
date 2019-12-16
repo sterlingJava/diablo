@@ -2,6 +2,7 @@ package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Address;
 import com.ylzy56.diablo.domain.Car;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.CarService;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/car")
-@Api(value = "car")
+@Api(value = "/car",description = "车辆接口")
 public class CarController {
 
     @Autowired
@@ -35,29 +36,14 @@ public class CarController {
 
 
     /**
-     * 分页查询车辆
+     * 分页条件查询车辆
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页查询车辆")
-    public PageResult searchPage(String keyword, Integer pageNum, Integer pageSize){
+    @ApiOperation(value = "分页条件查询车辆")
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
         try {
-            return carService.searchPage(keyword,pageNum,pageSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * 根据条件查询运单
-     * @return
-     */
-    @GetMapping("/searchNoPage")
-    @ApiOperation(value = "根据条件查询运单")
-    public PageResult searchNoPage(String keyworde){
-        try {
-            return carService.searchNoPage(keyworde);
+            return carService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -86,7 +72,7 @@ public class CarController {
      * @param car
      * @return
      */
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "添加车辆")
     public Result save(Car car){
         try {
@@ -94,7 +80,7 @@ public class CarController {
             return new Result(true,"添加车辆成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加车辆失败");
+            return new Result(false,"添加车辆失败");
         }
     }
 
@@ -103,7 +89,7 @@ public class CarController {
      * @param id
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping
     @ApiOperation(value = "删除车辆")
     public Result delete(String id){
         try {
@@ -111,7 +97,7 @@ public class CarController {
             return new Result(true,"删除车辆成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除车辆失败");
+            return new Result(false,"删除车辆失败");
         }
     }
 
@@ -120,7 +106,7 @@ public class CarController {
      * @param car
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping
     @ApiOperation(value = "更新车辆")
     public Result update(Car car){
         try {
@@ -128,7 +114,7 @@ public class CarController {
             return new Result(true,"更新车辆成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"更新车辆失败");
+            return new Result(false,"更新车辆失败");
         }
     }
 

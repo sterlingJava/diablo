@@ -2,6 +2,7 @@ package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Address;
 import com.ylzy56.diablo.domain.UserInfo;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.AddressService;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/address")
-@Api(value = "address")
+@Api(value = "/address",description = "地址接口")
 public class AddressController {
 
     @Autowired
@@ -42,9 +43,9 @@ public class AddressController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询地址")
-    public PageResult searchPage(String keyword,Integer pageNum, Integer pageSize){
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
         try {
-            return addressService.searchPage(keyword,pageNum,pageSize);
+            return addressService.searchPage(condition,pageNum,pageSize);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -54,7 +55,7 @@ public class AddressController {
     /**
      * 根据条件查询运单
      * @return
-     */
+     *//*
     @GetMapping("/searchNoPage")
     @ApiOperation(value = "根据条件查询地址")
     public List<Address> searchNoPage(String keyworde){
@@ -64,11 +65,11 @@ public class AddressController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
 
     /**
-     * 查询指定
+     * 查询指定地址
      * @param id
      * @return
      */
@@ -88,7 +89,7 @@ public class AddressController {
      * @param address
      * @return
      */
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "添加地址")
     public Result save(Address address){
         try {
@@ -105,7 +106,7 @@ public class AddressController {
      * @param id
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping
     @ApiOperation(value = "删除地址")
     public Result delete(String id){
         try {
@@ -122,7 +123,7 @@ public class AddressController {
      * @param address
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping
     @ApiOperation(value = "更新地址")
     public Result update(Address address){
         try {

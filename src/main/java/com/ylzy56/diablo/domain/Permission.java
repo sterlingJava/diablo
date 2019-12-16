@@ -5,6 +5,7 @@ import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Data
@@ -82,4 +83,5 @@ public class Permission {
     @Column(name = "is_del")
     private String isDel;
 
+    private List<Permission> permissionList;
     }

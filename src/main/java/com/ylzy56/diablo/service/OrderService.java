@@ -1,5 +1,7 @@
 package com.ylzy56.diablo.service;
 
+import com.ylzy56.diablo.domain.Address;
+import com.ylzy56.diablo.domain.Customer;
 import com.ylzy56.diablo.domain.Order;
 import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
@@ -20,4 +22,6 @@ public interface OrderService {
     void delete(String orderId);
 
     void update(Order order);
+
+    boolean checkUserStatus(String orderId);
 }

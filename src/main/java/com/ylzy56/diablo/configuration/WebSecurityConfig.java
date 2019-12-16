@@ -15,10 +15,17 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -68,7 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 允许对于网站静态资源的无授权访问
                 .antMatchers(
-                        HttpMethod.GET,
                         "/",
                         "/*.html",
                         "/favicon.ico",
@@ -78,9 +84,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/auth/**").permitAll()
-                //.antMatchers("/**").permitAll()
+                .antMatchers("/**").permitAll()
                 //.antMatchers("/admin/**").hasIpAddress("127.0.0.1")
-                .antMatchers("/user/**").access("hasAuthority('ROLE_ADMIN')")
+                //.antMatchers("/user/find*").access("hasAuthority('ROLE_ADMIN')")
 //                .anyRequest().authenticated().and().formLogin().loginPage("/login")
 //                .failureUrl("/login?error").permitAll().and().logout().permitAll();
         // 除上面外的所有请求全部需要鉴权认证

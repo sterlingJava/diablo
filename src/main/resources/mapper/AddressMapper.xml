@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="CREATED_DATE" jdbcType="TIMESTAMP" property="createdDate" />
     <result column="CREATED_BY" jdbcType="INTEGER" property="createdBy" />
     <result column="LAST_MODIFIED_DATE" jdbcType="TIMESTAMP" property="lastModifiedDate" />
@@ -16,5 +16,14 @@
     <result column="ADDRESS_TYPE" jdbcType="VARCHAR" property="addressType" />
     <result column="AREA" jdbcType="VARCHAR" property="area" />
     <result column="DETAILED_ADDRESS" jdbcType="VARCHAR" property="detailedAddress" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="id_del" jdbcType="VARCHAR" property="idDel" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modifier" jdbcType="VARCHAR" property="lastModifier" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

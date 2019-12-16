@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="car_id" jdbcType="VARCHAR" property="carId" />
     <result column="PLATE_NUMBER" jdbcType="VARCHAR" property="plateNumber" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
@@ -17,5 +17,12 @@
     <result column="CURRENT_DRIVER" jdbcType="VARCHAR" property="currentDriver" />
     <result column="CURRENT_DRIVER_PHONE" jdbcType="VARCHAR" property="currentDriverPhone" />
     <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modifier" jdbcType="VARCHAR" property="lastModifier" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

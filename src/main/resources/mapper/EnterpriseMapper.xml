@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+    <id column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="license_number" jdbcType="VARCHAR" property="licenseNumber" />
@@ -15,10 +15,14 @@
     <result column="annual_turnover" jdbcType="VARCHAR" property="annualTurnover" />
     <result column="corp_name" jdbcType="VARCHAR" property="corpName" />
     <result column="corp_idnum" jdbcType="VARCHAR" property="corpIdnum" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="notes" jdbcType="VARCHAR" property="notes" />
-    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="reviewer" jdbcType="VARCHAR" property="reviewer" />
+    <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

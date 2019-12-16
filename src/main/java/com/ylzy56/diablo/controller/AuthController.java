@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 //@RequestMapping("/auth")
-@Api(value = "权限")
+@Api(value = "/auth",description = "验证接口")
 public class AuthController {
     @Value("${jwt.header}")
     private String tokenHeader;

@@ -7,14 +7,16 @@ public class OrderAddress {
     /**
      * 订单id
      */
+    @Id
     @Column(name = "order_id")
     private String orderId;
 
     /**
      * 地址id
      */
+    @Id
     @Column(name = "address_id")
-    private Integer addressId;
+    private String addressId;
 
     /**
      * 获取订单id
@@ -39,7 +41,7 @@ public class OrderAddress {
      *
      * @return address_id - 地址id
      */
-    public Integer getAddressId() {
+    public String getAddressId() {
         return addressId;
     }
 
@@ -48,7 +50,7 @@ public class OrderAddress {
      *
      * @param addressId 地址id
      */
-    public void setAddressId(Integer addressId) {
+    public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
 }

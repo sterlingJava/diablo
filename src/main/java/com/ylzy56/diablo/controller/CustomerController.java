@@ -8,39 +8,22 @@ import com.ylzy56.diablo.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
-@Api(value = "Customer")
+@Api(value = "/customer",description = "客户接口")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
     /**
-     * 查询所有客户列表
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有客户列表")
-    public List<Customer> findAll(){
-        try {
-            return customerService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * 分页查询客户列表
      * @return
-     */
+     *//*
     @GetMapping("/findPage")
     @ApiOperation(value = "分页查询客户列表")
     public PageResult findPage(Integer pageNum, Integer pageSize){
@@ -50,12 +33,12 @@ public class CustomerController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     /**
      * 条件查询客户列表
      * @return
-     */
+     *//*
     @GetMapping("/searchCustomerList")
     @ApiOperation(value = "条件查询客户列表")
     public PageResult searchCustomerList(Condition condition){
@@ -65,7 +48,7 @@ public class CustomerController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     /**
      * 分页条件查询客户列表
@@ -103,7 +86,7 @@ public class CustomerController {
      * @param customer
      * @return
      */
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "添加客户")
     public Result save(Customer customer){
         try {
@@ -111,7 +94,7 @@ public class CustomerController {
             return new Result(true,"添加客户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"添加客户失败");
+            return new Result(false,"添加客户失败");
         }
     }
 
@@ -120,7 +103,7 @@ public class CustomerController {
      * @param customerId
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping
     @ApiOperation(value = "删除客户")
     public Result delete(String customerId){
         try {
@@ -128,7 +111,7 @@ public class CustomerController {
             return new Result(true,"删除客户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"删除客户失败");
+            return new Result(false,"删除客户失败");
         }
     }
 
@@ -137,7 +120,7 @@ public class CustomerController {
      * @param customer
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping
     @ApiOperation(value = "更新客户")
     public Result update(Customer customer){
         try {
@@ -145,7 +128,7 @@ public class CustomerController {
             return new Result(true,"更新客户成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(true,"更新客户失败");
+            return new Result(false,"更新客户失败");
         }
     }
 

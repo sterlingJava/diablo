@@ -26,6 +26,7 @@ public class UserInfo implements UserDetails{
     @Id
     @Column(name = "user_id")
     @KeySql(genId = UUIdGenId.class)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
     private String userId;
 
     /**

@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -158,6 +155,27 @@ public class PermissionServiceImpl implements PermissionService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return permissionList;
+    }
+
+    @Override
+    public List<Permission> findAllByGrade() {
+
+        Example example = new Example(Permission.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("permissionLevel","0");
+        criteria.andEqualTo("isDel","0");
+        List<Permission> permissionList = permissionDao.selectByExample(example);
+        if (!ObjectUtils.isEmpty(permissionList)) {
+            for (Permission permission : permissionList) {
+                Example example2 = new Example(Permission.class);
+                Example.Criteria criteria2 = example2.createCriteria();
+                criteria2.andEqualTo("parentPermissionId", permission.getPermissionId());
+                criteria2.andEqualTo("isDel", "0");
+                List<Permission> permissionList2 = permissionDao.selectByExample(example2);
+                permission.setPermissionList(permissionList2);
+            }
         }
         return permissionList;
     }

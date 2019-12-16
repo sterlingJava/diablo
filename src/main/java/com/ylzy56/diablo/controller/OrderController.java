@@ -1,57 +1,27 @@
 package com.ylzy56.diablo.controller;
 
+import com.ylzy56.diablo.domain.Address;
+import com.ylzy56.diablo.domain.Customer;
 import com.ylzy56.diablo.domain.Order;
 import com.ylzy56.diablo.domain.entity.Condition;
+import com.ylzy56.diablo.domain.entity.OrderVo;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/order")
-@Api(value = "Order")
+@Api(value = "/order",description = "订单接口")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
-
-    /**
-     * 查询所有订单列表
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有订单列表")
-    public List<Order> findAll(){
-        try {
-            return orderService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * 分页查询订单列表
-     * @return
-     */
-    @GetMapping("/findPage")
-    @ApiOperation(value = "分页查询订单列表")
-    public PageResult findPage(Integer pageNum, Integer pageSize){
-        try {
-            return orderService.findPage(pageNum,pageSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * 分页条件查询订单列表
@@ -91,7 +61,7 @@ public class OrderController {
      */
     @PostMapping("/save")
     @ApiOperation(value = "添加订单")
-    public Result save(Order order){
+    public Result save(@RequestBody Order order){
         try {
             orderService.save(order);
             return new Result(true,"添加订单成功");
@@ -106,7 +76,7 @@ public class OrderController {
      * @param orderId
      * @return
      */
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     @ApiOperation(value = "删除订单")
     public Result delete(String orderId){
         try {
@@ -123,7 +93,7 @@ public class OrderController {
      * @param order
      * @return
      */
-    @GetMapping("/update")
+    @PutMapping("/update")
     @ApiOperation(value = "更新订单")
     public Result update(Order order){
         try {

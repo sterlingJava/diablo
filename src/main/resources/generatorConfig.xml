@@ -36,7 +36,7 @@
         <!--<table tableName="%">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>-->
-        <table tableName="enterprise">
+        <table tableName="order_customer">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
         <!--<table tableName="role">

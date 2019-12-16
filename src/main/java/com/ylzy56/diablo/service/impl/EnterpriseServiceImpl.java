@@ -5,12 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.EnterpriseMapper;
 import com.ylzy56.diablo.dao.UserInfoMapper;
 import com.ylzy56.diablo.domain.Enterprise;
+import com.ylzy56.diablo.domain.Role;
 import com.ylzy56.diablo.domain.UserInfo;
 import com.ylzy56.diablo.domain.UserRole;
 import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.EnterpriseService;
+import com.ylzy56.diablo.service.RoleService;
 import com.ylzy56.diablo.service.UserService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,15 +37,21 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+
     @Override
     public void save(Enterprise enterprise) {
         enterprise.setStatus("0");
         enterprise.setIsDel("0");
+        enterprise.setApplyTime(new Date());
         enterpriseDao.insertSelective(enterprise);
         UserInfo userInfo = userService.findByMobile(enterprise.getMobile());
-        userInfo.setUsername(enterprise.getCorpName());
+        userInfo.setName(enterprise.getCorpName());
         userInfo.setEnterpriseId(enterprise.getEnterpriseId());
         userInfo.setLevel("0");
+        userInfo.setCreator("自主注册");
         userInfoDao.updateByPrimaryKeySelective(userInfo);
     }
 
@@ -81,6 +91,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         try {
             Enterprise enterprise = enterpriseDao.selectByPrimaryKey(enterpriseId);
             if (enterprise != null) {
+                enterprise.setReviewTime(new Date());
                 enterprise.setStatus(status);
                 enterprise.setNotes(remark);
                 //1.根据企业id查询用户信息
@@ -93,6 +104,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
                     if ("1".equals(status)) {
                         userInfo.setStatus("0");
                         userInfoDao.updateByPrimaryKeySelective(userInfo);
+                        userService.addRoleToUser(userInfo.getUserId(),"3281f868-f273-438b-a1c4-822ae9cfa8c2");
                     }
                     if ("2".equals(status)){
                         userInfo.setStatus("1");

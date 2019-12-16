@@ -12,6 +12,7 @@ public class Customer {
     @Id
     @Column(name = "customer_id")
     @KeySql(genId = UUIdGenId.class)
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
     private String customerId;
 
     /**

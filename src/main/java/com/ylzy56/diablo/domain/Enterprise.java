@@ -4,6 +4,7 @@ import com.ylzy56.diablo.domain.entity.UUIdGenId;
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
+import java.util.Date;
 import javax.persistence.*;
 
 @Data
@@ -12,9 +13,9 @@ public class Enterprise {
      * 企业id
      */
     @Id
-    @Column(name = "enterprise_id")
     @KeySql(genId = UUIdGenId.class)
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+    @Column(name = "enterprise_id")
     private String enterpriseId;
 
     /**
@@ -70,20 +71,9 @@ public class Enterprise {
     private String corpIdnum;
 
     /**
-     * 审批状态(0:未审核,1:审核通过,2:审核未通过)
-     */
-    private String status;
-
-    /**
      * 备注:审核依据
      */
     private String notes;
-
-    /**
-     * 是否删除(0:未删除,1:删除)
-     */
-    @Column(name = "is_del")
-    private String isDel;
 
     /**
      * 手机号
@@ -95,4 +85,37 @@ public class Enterprise {
      */
     private String password;
 
-    }
+    /**
+     * 申请人
+     */
+    private String applicant;
+
+    /**
+     * 申请时间
+     */
+    @Column(name = "apply_time")
+    private Date applyTime;
+
+    /**
+     * 审核人
+     */
+    private String reviewer;
+
+    /**
+     * 审核通过时间
+     */
+    @Column(name = "review_time")
+    private Date reviewTime;
+
+    /**
+     * 审批状态(0:未审核,1:审核通过,2:审核未通过)
+     */
+    private String status;
+
+    /**
+     * 是否删除(0:未删除,1:删除)
+     */
+    @Column(name = "is_del")
+    private String isDel;
+
+}

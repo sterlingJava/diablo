@@ -22,5 +22,7 @@ public interface CustomerService {
 
     void update(Customer customer);
 
+    List<Customer> findCustomersByOrderId(String orderId);
+
     PageResult searchCustomerList(Condition condition);
 }

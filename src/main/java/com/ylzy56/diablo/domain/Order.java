@@ -5,9 +5,11 @@ import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Data
+@Table(name="tb_order")
 public class Order {
     /**
      * 订单编号
@@ -16,12 +18,6 @@ public class Order {
     @Column(name = "order_id")
     @KeySql(genId = UUIdGenId.class)
     private String orderId;
-
-    /**
-     * 客户id
-     */
-    @Column(name = "customer_id")
-    private Integer customerId;
 
     /**
      * 货物类型
@@ -117,4 +113,9 @@ public class Order {
     @Column(name = "is_del")
     private String isDel;
 
+    private List<Address> addressList;
+
+    private String customerId;
+
+    private Customer customer;
     }

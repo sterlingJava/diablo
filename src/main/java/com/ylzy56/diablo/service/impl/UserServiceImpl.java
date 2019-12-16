@@ -10,14 +10,14 @@ import com.ylzy56.diablo.service.PermissionService;
 import com.ylzy56.diablo.service.RoleService;
 import com.ylzy56.diablo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -56,12 +56,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserInfo findById(String userId) {
+    public UserInfo findById(String userId,String enterpriseId) {
         //1.根据用户id查询用户信息
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId",userId);
         criteria.andEqualTo("isDel","0");
+        criteria.andEqualTo("enterpriseId",enterpriseId);
         UserInfo userInfo = userDao.selectOneByExample(example);
         //2.根据用户id查询用包含的角色列表
         List<Role> roleList = roleService.findRolesByUserId(userId);
@@ -84,6 +85,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(UserInfo userInfo) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final String rawPassword = userInfo.getPassword();
+        userInfo.setPassword(encoder.encode(rawPassword));
         userInfo.setCreateTime(new Date());
         userInfo.setIsDel("0");
         userDao.insertSelective(userInfo);
@@ -122,6 +126,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void update(UserInfo userInfo) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final String rawPassword = userInfo.getPassword();
+        userInfo.setPassword(encoder.encode(rawPassword));
         //添加修改时间
         userInfo.setLastModifyTime(new Date());
         userDao.updateByPrimaryKeySelective(userInfo);
@@ -161,7 +168,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult findPage(Integer pageNum, Integer pageSize) {
+    public PageResult findPage(Integer pageNum, Integer pageSize,String enterpriseId) {
         if (ObjectUtils.isEmpty(pageNum)){
             pageNum=1;
         }
@@ -174,7 +181,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
+    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize,String enterpriseId) {
         if (ObjectUtils.isEmpty(pageNum)){
             pageNum=1;
         }
@@ -193,6 +200,7 @@ public class UserServiceImpl implements UserService {
         }
         Example.Criteria exampleCriteria = example.createCriteria();
         exampleCriteria.andEqualTo("isDel","0");
+        exampleCriteria.andEqualTo("enterpriseId",enterpriseId);
         example.and(exampleCriteria);
         Page<UserInfo> page = (Page<UserInfo>) userDao.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
@@ -253,6 +261,38 @@ public class UserServiceImpl implements UserService {
             userInfo.setRoles(roleList);
         }
         return userInfo;
+    }
+
+    @Override
+    public Set<String> getPermissionSetByMobile(String username) {
+        Set<String> set = new HashSet<>();
+        //1.根据手机号查询用户信息
+        Example example = new Example(UserInfo.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username",username);
+        criteria.andEqualTo("isDel","0");
+        UserInfo userInfo = userDao.selectOneByExample(example);
+        //2.根据用户id查询用包含的角色列表
+        if (userInfo != null) {
+            List<Role> roleList = roleService.findRolesByUserId(userInfo.getUserId());
+            if (!ObjectUtils.isEmpty(roleList)) {
+                //3.遍历角色列表,根据角色id查询出包含的权限信息
+                for (Role role : roleList) {
+                    List<Permission> permissionList = permissionService.findPermissionsByRoleId(role.getRoleId());
+                    if (!ObjectUtils.isEmpty(permissionList)) {
+                        //set.addAll(permissionList);
+                        for (Permission permission : permissionList) {
+                            if (!ObjectUtils.isEmpty(permission)){
+                                if (!ObjectUtils.isEmpty(permission.getUrl())) {
+                                    set.add(permission.getUrl());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return set;
     }
 
     /**
