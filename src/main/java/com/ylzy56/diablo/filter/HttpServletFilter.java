@@ -61,8 +61,10 @@ public class HttpServletFilter implements Filter {
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
             if (!"anonymousUser".equals(name)) {
                 UserInfo userInfo = userService.findByMobile(name);
-                String userinfoStr = JSON.toJSONString(userInfo);
-                map.put("loginUser", new String[]{userinfoStr});
+                //String userinfoStr = JSON.toJSONString(userInfo);
+                //map.put("loginUser", new String[]{userinfoStr});
+                map.put("username",new String[]{name});
+                map.put("enterpriseId",new String[]{userInfo.getEnterpriseId()});
             }
             ParameterRequestWrapper parameterRequestWrapper = new ParameterRequestWrapper((HttpServletRequest) request, map);
             //继续向后传递修改后的request,拦截器不能实现。

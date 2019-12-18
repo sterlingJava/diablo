@@ -5,17 +5,27 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="CREATEDBY" jdbcType="VARCHAR" property="createdby" />
-    <result column="CREATEDTIME" jdbcType="TIMESTAMP" property="createdtime" />
-    <result column="CODE" jdbcType="VARCHAR" property="code" />
-    <result column="TAX_AMOUNT" jdbcType="DECIMAL" property="taxAmount" />
-    <result column="TAX_RATE" jdbcType="DOUBLE" property="taxRate" />
-    <result column="INVOICE_TITLE" jdbcType="VARCHAR" property="invoiceTitle" />
-    <result column="ENTERPRISE" jdbcType="VARCHAR" property="enterprise" />
-    <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="PAPER_INVOICE_NUMBER" jdbcType="VARCHAR" property="paperInvoiceNumber" />
-    <result column="LOGISTICS_COMPANY" jdbcType="VARCHAR" property="logisticsCompany" />
-    <result column="LOGISTICS_NO" jdbcType="VARCHAR" property="logisticsNo" />
+    <id column="invoice_id" jdbcType="VARCHAR" property="invoiceId" />
+    <result column="invoice_code" jdbcType="VARCHAR" property="invoiceCode" />
+    <result column="tax_amount" jdbcType="VARCHAR" property="taxAmount" />
+    <result column="tax_rate" jdbcType="VARCHAR" property="taxRate" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="tax_num" jdbcType="VARCHAR" property="taxNum" />
+    <result column="deposit_bank" jdbcType="VARCHAR" property="depositBank" />
+    <result column="bank_account" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="fixed_line" jdbcType="VARCHAR" property="fixedLine" />
+    <result column="register_address" jdbcType="VARCHAR" property="registerAddress" />
+    <result column="invoice_company" jdbcType="VARCHAR" property="invoiceCompany" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="paper_invoice_num" jdbcType="VARCHAR" property="paperInvoiceNum" />
+    <result column="logistics" jdbcType="VARCHAR" property="logistics" />
+    <result column="logistics_num" jdbcType="VARCHAR" property="logisticsNum" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="reviewer" jdbcType="VARCHAR" property="reviewer" />
+    <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

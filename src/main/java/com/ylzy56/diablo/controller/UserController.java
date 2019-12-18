@@ -26,7 +26,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "/user",description = "用户接口")
+@Api(value = "/user", description = "用户接口")
 @RequiredPermission("ADDRESS") // 权限注解
 //@PreAuthorize("hasRole('ROLE_ADMIN')")
 //@PreAuthorize("hasAuthority('index')")
@@ -72,16 +72,11 @@ public class UserController {
      *
      * @return
      */
-    @GetMapping("/searchPage")
+    @PostMapping("/searchPage")
     @ApiOperation(value = "分页条件查询用户列表")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize,String loginUser) {
+    public PageResult searchPage(@RequestBody Condition condition, String enterpriseId) {
         try {
-            UserInfo loginUserInfo = JSONArray.parseObject(loginUser, UserInfo.class);
-            String enterpriseId=null;
-            if (!ObjectUtils.isEmpty(loginUserInfo)){ //要判断
-                enterpriseId=loginUserInfo.getEnterpriseId();
-            }
-            return userService.searchPage(condition, pageNum, pageSize,enterpriseId);
+            return userService.searchPage(condition, enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -96,14 +91,9 @@ public class UserController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定用户信息")
-    public UserInfo findById(String userId,String loginUser) {
+    public UserInfo findById(String userId) {
         try {
-            UserInfo loginUserInfo = JSONArray.parseObject(loginUser, UserInfo.class);
-            String enterpriseId=null;
-            if (!ObjectUtils.isEmpty(loginUserInfo)){ //要判断
-                enterpriseId=loginUserInfo.getEnterpriseId();
-            }
-            return userService.findById(userId,enterpriseId);
+            return userService.findById(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -135,15 +125,13 @@ public class UserController {
      */
     @PostMapping
     @ApiOperation(value = "添加用户")
-    public Result save(UserInfo userInfo,String loginUser) {
+    public Result save(@RequestBody UserInfo userInfo, String username, String enterpriseId) {
         try {
-            UserInfo loginUserInfo = JSONArray.parseObject(loginUser, UserInfo.class);
-            if (!ObjectUtils.isEmpty(loginUserInfo)){ //要判断
-                userInfo.setCreator(loginUserInfo.getName());
-                userInfo.setEnterpriseId(loginUserInfo.getEnterpriseId());
-            }
+
+            userInfo.setCreator(username);
+            userInfo.setEnterpriseId(enterpriseId);
             userService.save(userInfo);
-            userService.addRoleToUser(userInfo.getUserId(),"f40670e7-fb87-4762-9a43-e11c167256c1");
+            userService.addRoleToUser(userInfo.getUserId(), "f40670e7-fb87-4762-9a43-e11c167256c1");
             return new Result(true, "添加用户成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,12 +165,9 @@ public class UserController {
      */
     @PutMapping
     @ApiOperation(value = "更新用户")
-    public Result update(UserInfo userInfo,String loginUser) {
+    public Result update(@RequestBody UserInfo userInfo, String username) {
         try {
-            UserInfo loginUserInfo = JSONArray.parseObject(loginUser, UserInfo.class);
-            if (!ObjectUtils.isEmpty(loginUserInfo)){ //要判断
-                userInfo.setCreator(loginUserInfo.getName());
-            }
+            userInfo.setCreator(username);
             userService.update(userInfo);
             return new Result(true, "更新用户成功");
         } catch (Exception e) {

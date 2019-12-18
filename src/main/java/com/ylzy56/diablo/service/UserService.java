@@ -10,16 +10,14 @@ import java.util.Set;
 
 public interface UserService {
     List<UserInfo> findAll();
-    UserInfo findById(String userId,String enterpriseId);
+    UserInfo findById(String userId);
     void save(UserInfo userInfo);
     void delete(String userId);
     void update(UserInfo userInfo);
     void addRoleToUser(String userId, String roleId);
     void deleteRoleFromUser(String userId, String roleId);
 
-    PageResult findPage(Integer pageNum, Integer pageSize,String enterpriseId);
-
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize,String enterpriseId);
+    PageResult searchPage(Condition condition,String enterpriseId);
 
     List<UserInfo> searchUserInfo(Condition condition);
 

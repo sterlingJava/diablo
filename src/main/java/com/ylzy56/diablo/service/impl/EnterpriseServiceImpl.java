@@ -119,14 +119,8 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageNum());
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {

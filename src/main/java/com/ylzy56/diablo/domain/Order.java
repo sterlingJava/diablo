@@ -26,6 +26,12 @@ public class Order {
     private String cargoType;
 
     /**
+     * 货物信息
+     */
+    @Column(name = "cargo_info")
+    private String cargoInfo;
+
+    /**
      * 预计重量(吨)
      */
     @Column(name = "predict_weight")
@@ -115,6 +121,7 @@ public class Order {
 
     private List<Address> addressList;
 
+    @Column(name = "customer_id")
     private String customerId;
 
     private Customer customer;

@@ -14,5 +14,5 @@ public interface EnterpriseService {
 
     void updateStatus(String enterpriseId, String status,String remark);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
+    PageResult searchPage(Condition condition);
 }

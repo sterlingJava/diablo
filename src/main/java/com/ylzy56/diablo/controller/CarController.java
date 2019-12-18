@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/car")
@@ -41,9 +43,29 @@ public class CarController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询车辆")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
+    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
         try {
-            return carService.searchPage(condition,pageNum,pageSize);
+            return carService.searchPage(condition,enterpriseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据车辆类型查询车辆数量
+     * @return
+     */
+    @GetMapping("/findByProperties")
+    @ApiOperation(value = "根据车辆类型查询车辆数量")
+    public Map findByProperties(String enterpriseId){
+        try {
+            Map map = new HashMap();
+            Integer privateNum = carService.findByProperties("自有车", enterpriseId);
+            Integer transferNum = carService.findByProperties("外调车", enterpriseId);
+            map.put("privateNum",privateNum);
+            map.put("transferNum",transferNum);
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -74,8 +96,10 @@ public class CarController {
      */
     @PostMapping
     @ApiOperation(value = "添加车辆")
-    public Result save(Car car){
+    public Result save(@RequestBody Car car,String username,String enterpriseId){
         try {
+            car.setCreator(username);
+            car.setLastModifier(enterpriseId);
             carService.save(car);
             return new Result(true,"添加车辆成功");
         } catch (Exception e) {
@@ -108,8 +132,9 @@ public class CarController {
      */
     @PutMapping
     @ApiOperation(value = "更新车辆")
-    public Result update(Car car){
+    public Result update(@RequestBody Car car,String username){
         try {
+            car.setLastModifier(username);
             carService.update(car);
             return new Result(true,"更新车辆成功");
         } catch (Exception e) {

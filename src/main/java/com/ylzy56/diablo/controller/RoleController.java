@@ -28,8 +28,10 @@ public class RoleController {
      */
     @PostMapping("/save")
     @ApiOperation(value = "添加角色")
-    public Result save(Role role){
+    public Result save(@RequestBody Role role,String username,String enterpriseId){
         try {
+            role.setCreator(username);
+            role.setEnterpriseId(enterpriseId);
             roleService.save(role);
             return new Result(true,"添加角色成功");
         } catch (Exception e) {
@@ -61,8 +63,9 @@ public class RoleController {
      */
     @PutMapping
     @ApiOperation(value = "更新角色")
-    public Result update(Role role){
+    public Result update(@RequestBody Role role,String username){
         try {
+            role.setLastModifier(username);
             roleService.update(role);
             return new Result(true,"更新角色成功");
         } catch (Exception e) {
@@ -73,7 +76,7 @@ public class RoleController {
     /**
      * 查询所有角色列表
      * @return
-     */
+     *//*
     @GetMapping("/findAll")
     @ApiOperation(value = "查询所有角色列表")
     public List<Role> findAll(){
@@ -83,7 +86,7 @@ public class RoleController {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     /**
      * 分页条件查询角色列表
@@ -91,9 +94,9 @@ public class RoleController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询角色列表")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
+    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
         try {
-            return roleService.searchPage(condition,pageNum,pageSize);
+            return roleService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

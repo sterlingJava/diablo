@@ -27,7 +27,7 @@ public class PermissionController {
      */
     @PostMapping
     @ApiOperation(value = "添加权限")
-    public Result save(Permission permission){
+    public Result save(@RequestBody Permission permission){
         try {
             permissionService.save(permission);
             return new Result(true,"添加权限成功");
@@ -61,7 +61,7 @@ public class PermissionController {
      */
     @PutMapping
     @ApiOperation(value = "修改权限")
-    public Result update(Permission permission){
+    public Result update(@RequestBody Permission permission){
         try {
             permissionService.update(permission);
             return new Result(true,"修改权限成功");

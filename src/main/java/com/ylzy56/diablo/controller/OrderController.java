@@ -29,9 +29,9 @@ public class OrderController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询订单列表")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
+    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
         try {
-            return orderService.searchPage(condition,pageNum,pageSize);
+            return orderService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -61,8 +61,10 @@ public class OrderController {
      */
     @PostMapping("/save")
     @ApiOperation(value = "添加订单")
-    public Result save(@RequestBody Order order){
+    public Result save(@RequestBody Order order,String username,String enterpriseId){
         try {
+            order.setCreator(username);
+            order.setEnterpriseId(enterpriseId);
             orderService.save(order);
             return new Result(true,"添加订单成功");
         } catch (Exception e) {
@@ -95,8 +97,9 @@ public class OrderController {
      */
     @PutMapping("/update")
     @ApiOperation(value = "更新订单")
-    public Result update(Order order){
+    public Result update(@RequestBody Order order,String username){
         try {
+            order.setLastModifier(username);
             orderService.update(order);
             return new Result(true,"更新订单成功");
         } catch (Exception e) {

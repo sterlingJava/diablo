@@ -13,7 +13,7 @@ public interface OrderService {
 
     PageResult findPage(Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
+    PageResult searchPage(Condition condition,String enterpriseId);
 
     Order findById(String orderId);
 

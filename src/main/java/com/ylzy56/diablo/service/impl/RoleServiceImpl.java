@@ -220,14 +220,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition, String enterpriseId) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
         Example example = new Example(Role.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {
@@ -238,6 +232,10 @@ public class RoleServiceImpl implements RoleService {
             criteria.andEqualTo("status",condition.getStatus());
         }
         Example.Criteria exampleCriteria = example.createCriteria();
+        List<Object> ids = new ArrayList<>();
+        ids.add(enterpriseId);
+        ids.add("systemdefault");
+        exampleCriteria.andIn("enterpriseId",ids);
         exampleCriteria.andEqualTo("isDel","0");
         example.and(exampleCriteria);
         Page<Role> page = (Page<Role>) roleDao.selectByExample(example);

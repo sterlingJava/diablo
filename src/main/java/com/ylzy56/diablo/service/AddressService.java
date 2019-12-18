@@ -18,10 +18,9 @@ public interface AddressService {
 
     void lead(List<List<String>> list);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
-
     List<Address> searchNoPage(String keyword);
 
     List<Address> findAddressByOrderId(String orderId);
 
+    PageResult searchPage(Condition condition, String enterpriseId);
 }

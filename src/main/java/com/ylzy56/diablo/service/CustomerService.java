@@ -12,8 +12,6 @@ public interface CustomerService {
 
     PageResult findPage(Integer pageNum, Integer pageSize);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
-
     Customer findById(String customerId);
 
     void save(Customer customer);
@@ -25,4 +23,6 @@ public interface CustomerService {
     List<Customer> findCustomersByOrderId(String orderId);
 
     PageResult searchCustomerList(Condition condition);
+
+    PageResult searchPage(Condition condition, String enterpriseId);
 }

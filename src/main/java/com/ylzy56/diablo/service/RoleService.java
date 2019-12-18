@@ -26,7 +26,7 @@ public interface RoleService {
 
     List<Role> findOtherRoles(String userId);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
+    PageResult searchPage(Condition condition, String enterpriseId);
 
     boolean checkRoleStatus(String roleId);
 

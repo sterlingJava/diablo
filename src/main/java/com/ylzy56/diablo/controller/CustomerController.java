@@ -56,9 +56,9 @@ public class CustomerController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询客户列表")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
+    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
         try {
-            return customerService.searchPage(condition,pageNum,pageSize);
+            return customerService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -88,8 +88,10 @@ public class CustomerController {
      */
     @PostMapping
     @ApiOperation(value = "添加客户")
-    public Result save(Customer customer){
+    public Result save(@RequestBody Customer customer,String username,String enterpriseId){
         try {
+            customer.setCreator(username);
+            customer.setEnterpriseId(enterpriseId);
             customerService.save(customer);
             return new Result(true,"添加客户成功");
         } catch (Exception e) {
@@ -122,8 +124,9 @@ public class CustomerController {
      */
     @PutMapping
     @ApiOperation(value = "更新客户")
-    public Result update(Customer customer){
+    public Result update(@RequestBody Customer customer,String username){
         try {
+            customer.setLastModifier(username);
             customerService.update(customer);
             return new Result(true,"更新客户成功");
         } catch (Exception e) {

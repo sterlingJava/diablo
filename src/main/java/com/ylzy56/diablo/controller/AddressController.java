@@ -34,18 +34,15 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-
-
-
     /**
      * 分页查询地址
      * @return
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询地址")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize){
+    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
         try {
-            return addressService.searchPage(condition,pageNum,pageSize);
+            return addressService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -91,8 +88,10 @@ public class AddressController {
      */
     @PostMapping
     @ApiOperation(value = "添加地址")
-    public Result save(Address address){
+    public Result save(@RequestBody Address address,String username,String enterpriseId){
         try {
+            address.setCreator(username);
+            address.setEnterpriseId(enterpriseId);
             addressService.save(address);
             return new Result(true,"添加地址成功");
         } catch (Exception e) {
@@ -125,8 +124,9 @@ public class AddressController {
      */
     @PutMapping
     @ApiOperation(value = "更新地址")
-    public Result update(Address address){
+    public Result update(@RequestBody Address address,String username){
         try {
+            address.setLastModifier(username);
             addressService.update(address);
             return new Result(true,"更新地址成功");
         } catch (Exception e) {

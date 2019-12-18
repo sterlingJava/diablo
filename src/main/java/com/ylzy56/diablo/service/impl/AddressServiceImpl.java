@@ -68,14 +68,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition,String enterpriseId) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
         Example example = new Example(Address.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {
@@ -86,6 +80,7 @@ public class AddressServiceImpl implements AddressService {
         }
         Example.Criteria exampleCriteria = example.createCriteria();
         exampleCriteria.andEqualTo("isDel","0");
+        exampleCriteria.andEqualTo("enterpriseId",enterpriseId);
         example.and(exampleCriteria);
         Page<Address> page = (Page<Address>) addressMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());

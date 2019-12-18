@@ -5,12 +5,18 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="ENTERPRISE_NAME" jdbcType="VARCHAR" property="enterpriseName" />
-    <result column="TAXPAYER_REGISTRATION_NUM" jdbcType="VARCHAR" property="taxpayerRegistrationNum" />
-    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
-    <result column="BANK_NUM" jdbcType="VARCHAR" property="bankNum" />
-    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
-    <result column="REGISTRANT_ADDRESS" jdbcType="VARCHAR" property="registrantAddress" />
+    <id column="invoice_title_id" jdbcType="VARCHAR" property="invoiceTitleId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="tax_num" jdbcType="VARCHAR" property="taxNum" />
+    <result column="deposit_bank" jdbcType="VARCHAR" property="depositBank" />
+    <result column="bank_account" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="fixed_line" jdbcType="VARCHAR" property="fixedLine" />
+    <result column="register_address" jdbcType="VARCHAR" property="registerAddress" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="enterprise_id" jdbcType="VARCHAR" property="enterpriseId" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
   </resultMap>
 </mapper>

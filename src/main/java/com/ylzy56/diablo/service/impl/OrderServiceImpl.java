@@ -58,14 +58,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition,String enterpriseId) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
         Example example = new Example(Order.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {
@@ -76,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Example.Criteria exampleCriteria = example.createCriteria();
         exampleCriteria.andEqualTo("isDel","0");
+        exampleCriteria.andEqualTo("enterpriseId",enterpriseId);
         example.and(exampleCriteria);
         Page<Order> page = (Page<Order>) orderDao.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());

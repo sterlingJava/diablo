@@ -6,6 +6,7 @@ import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CarService {
 
@@ -17,8 +18,9 @@ public interface CarService {
 
     void lead(List<List<String>> list);
 
-    PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize);
-
     PageResult searchNoPage(String keyword);
 
+    PageResult searchPage(Condition condition, String enterpriseId);
+
+    Integer findByProperties(String carProperties,String enterpriseId);
 }

@@ -56,13 +56,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserInfo findById(String userId,String enterpriseId) {
+    public UserInfo findById(String userId) {
         //1.根据用户id查询用户信息
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId",userId);
         criteria.andEqualTo("isDel","0");
-        criteria.andEqualTo("enterpriseId",enterpriseId);
         UserInfo userInfo = userDao.selectOneByExample(example);
         //2.根据用户id查询用包含的角色列表
         List<Role> roleList = roleService.findRolesByUserId(userId);
@@ -168,27 +167,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResult findPage(Integer pageNum, Integer pageSize,String enterpriseId) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
-        Page<UserInfo> page = (Page<UserInfo>) findAll();
-        return new PageResult(page.getTotal(), page.getResult());
-    }
-
-    @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize,String enterpriseId) {
-        if (ObjectUtils.isEmpty(pageNum)){
-            pageNum=1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)){
-            pageSize=10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition, String enterpriseId) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {

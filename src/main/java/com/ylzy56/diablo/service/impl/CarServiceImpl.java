@@ -5,11 +5,9 @@ import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.CarMapper;
 import com.ylzy56.diablo.domain.Address;
 import com.ylzy56.diablo.domain.Car;
-import com.ylzy56.diablo.domain.Customer;
 import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.service.CarService;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -17,7 +15,9 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -55,14 +55,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
-        if (ObjectUtils.isEmpty(pageNum)) {
-            pageNum = 1;
-        }
-        if (ObjectUtils.isEmpty(pageSize)) {
-            pageSize = 10;
-        }
-        PageHelper.startPage(pageNum, pageSize);
+    public PageResult searchPage(Condition condition,String enterpriseId) {
+        PageHelper.startPage(condition.getPageNum(), condition.getPageSize());
         Example example = new Example(Car.class);
         Example.Criteria criteria = example.createCriteria();
         if (!StringUtil.isEmpty(condition.getKeyword())) {
@@ -74,9 +68,19 @@ public class CarServiceImpl implements CarService {
         }
         Example.Criteria exampleCriteria = example.createCriteria();
         exampleCriteria.andEqualTo("isDel", "0");
+        exampleCriteria.andEqualTo("enterpriseId", enterpriseId);
         example.and(exampleCriteria);
         Page<Car> page = (Page<Car>) carMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public Integer findByProperties(String carProperties,String enterpriseId) {
+        Example example = new Example(Car.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("enterpriseId",enterpriseId);
+        criteria.andEqualTo("carProperties",carProperties);
+        return carMapper.selectCountByExample(example);
     }
 
     @Override

@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.util.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/auth")
+@RequestMapping("/auth")
 @Api(value = "/auth",description = "验证接口")
 public class AuthController {
     @Value("${jwt.header}")
@@ -38,7 +35,8 @@ public class AuthController {
     @Autowired
     private EnterpriseService enterpriseService;
 
-    @RequestMapping(value = "/auth/login", method = RequestMethod.GET)
+    @ApiOperation(value = "登录")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String createAuthenticationToken(
             String username,String password
     ) throws AuthenticationException{
@@ -49,8 +47,8 @@ public class AuthController {
         //return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         return token;
     }
-
-    @RequestMapping(value = "/auth/refresh", method = RequestMethod.GET)
+    @ApiOperation(value = "刷新token")
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public String refreshAndGetAuthenticationToken(
             HttpServletRequest request) throws AuthenticationException{
         String token = request.getHeader(tokenHeader);
@@ -64,8 +62,9 @@ public class AuthController {
         }
     }
 
+    @ApiOperation(value = "注册(参数手机号和密码)")
     @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
-    public Result register(UserInfo userInfo) throws AuthenticationException{
+    public Result register(@RequestBody UserInfo userInfo) throws AuthenticationException{
         try {
              authService.register(userInfo);
              return new Result(true,"注册成功!");
@@ -74,7 +73,18 @@ public class AuthController {
             return new Result(false,"注册失败!");
         }
     }
-
+    @ApiOperation(value = "找回密码(参数新密码和手机号或者用户id)")
+    @PutMapping(value = "/auth/updatePassword")
+    public Result updatePassword(@RequestBody UserInfo userInfo) throws AuthenticationException{
+        try {
+            userService.update(userInfo);
+            return new Result(true,"修改密码成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"修改密码失败!");
+        }
+    }
+    @ApiOperation(value = "注册企业信息")
     @RequestMapping(value = "/auth/enterprise", method = RequestMethod.POST)
     public Result register(Enterprise enterprise) throws AuthenticationException{
         try {

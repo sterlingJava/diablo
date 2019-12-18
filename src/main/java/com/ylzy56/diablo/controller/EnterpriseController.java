@@ -29,7 +29,7 @@ public class EnterpriseController {
      */
     @PostMapping
     @ApiOperation(value = "添加企业")
-    public Result save(Enterprise enterprise) {
+    public Result save(@RequestBody Enterprise enterprise) {
         try {
             enterpriseService.save(enterprise);
             return new Result(true, "添加企业成功");
@@ -65,7 +65,7 @@ public class EnterpriseController {
      */
     @PutMapping
     @ApiOperation(value = "修改企业信息")
-    public Result update(Enterprise enterprise) {
+    public Result update(@RequestBody Enterprise enterprise) {
         try {
             enterpriseService.update(enterprise);
             return new Result(true, "更新企业成功");
@@ -118,9 +118,9 @@ public class EnterpriseController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询企业列表")
-    public PageResult searchPage(Condition condition, Integer pageNum, Integer pageSize) {
+    public PageResult searchPage(@RequestBody Condition condition) {
         try {
-            return enterpriseService.searchPage(condition, pageNum, pageSize);
+            return enterpriseService.searchPage(condition);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
