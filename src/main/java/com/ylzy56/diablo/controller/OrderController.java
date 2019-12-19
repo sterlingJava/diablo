@@ -29,7 +29,7 @@ public class OrderController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询订单列表")
-    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
+    public PageResult searchPage( Condition condition,String enterpriseId){
         try {
             return orderService.searchPage(condition,enterpriseId);
         } catch (Exception e) {

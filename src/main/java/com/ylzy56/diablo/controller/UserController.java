@@ -74,7 +74,7 @@ public class UserController {
      */
     @PostMapping("/searchPage")
     @ApiOperation(value = "分页条件查询用户列表")
-    public PageResult searchPage(@RequestBody Condition condition, String enterpriseId) {
+    public PageResult searchPage(Condition condition, String enterpriseId) {
         try {
             return userService.searchPage(condition, enterpriseId);
         } catch (Exception e) {

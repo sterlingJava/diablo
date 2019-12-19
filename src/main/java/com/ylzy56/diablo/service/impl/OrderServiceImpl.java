@@ -100,19 +100,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(Order order) {
-        if (ObjectUtils.isEmpty(order.getCustomerId())) {
+        /*if (ObjectUtils.isEmpty(order.getCustomerId())) {
             if (!ObjectUtils.isEmpty(order.getCustomer())) {
                 customerService.save(order.getCustomer());
                 order.setCustomerId(order.getCustomer().getCustomerId());
             }
-        }
+        }*/
         String orderId = "KHDD"+ StringTimeUtils.getTimeString()+ RandomStringUtils.randomNumeric(6);
         order.setOrderId(orderId);
         order.setCreateTime(new Date());
         order.setIsDel("0");
         orderDao.insertSelective(order);
+        addAddressList(order);
 
-
+    }
+    //根据订单对象,添加地址列表关联
+    public void addAddressList(Order order){
         if (!ObjectUtils.isEmpty(order.getAddressList())){
             for (Address address : order.getAddressList()) {
                 if (ObjectUtils.isEmpty(address.getAddressId())){
@@ -124,15 +127,11 @@ public class OrderServiceImpl implements OrderService {
                 orderAddressDao.insertSelective(orderAddress);
             }
         }
-
     }
 
     @Override
     public void delete(String orderId) {
         //1.删除用户角色关联表信息
-        orderCustomerDao.delete(new OrderCustomer() {{
-            setOrderId(orderId);
-        }});
         orderAddressDao.delete(new OrderAddress() {{
             setOrderId(orderId);
         }});
@@ -151,8 +150,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void update(Order order) {
+        //先删除订单和地址的关联
+        orderAddressDao.delete(new OrderAddress() {{
+            setOrderId(order.getOrderId());
+        }});
         order.setLastModifyTime(new Date());
         orderDao.updateByPrimaryKeySelective(order);
+        addAddressList(order);
     }
 
     @Override

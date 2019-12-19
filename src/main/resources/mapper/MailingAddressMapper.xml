@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzy56.diablo.dao.MailingAddressMapper">
+  <resultMap id="BaseResultMap" type="com.ylzy56.diablo.domain.MailingAddress">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="mailing_address_id" jdbcType="VARCHAR" property="mailingAddressId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="linkman_name" jdbcType="VARCHAR" property="linkmanName" />
+    <result column="linkman_mobile" jdbcType="VARCHAR" property="linkmanMobile" />
+    <result column="fixed_line" jdbcType="VARCHAR" property="fixedLine" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modifier" jdbcType="VARCHAR" property="lastModifier" />
+    <result column="last_modify_time" jdbcType="TIMESTAMP" property="lastModifyTime" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+  </resultMap>
+</mapper>

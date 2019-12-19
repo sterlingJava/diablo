@@ -16,7 +16,6 @@ public class Order {
      */
     @Id
     @Column(name = "order_id")
-    @KeySql(genId = UUIdGenId.class)
     private String orderId;
 
     /**

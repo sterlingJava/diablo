@@ -56,7 +56,7 @@ public class CustomerController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询客户列表")
-    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
+    public PageResult searchPage(Condition condition,String enterpriseId){
         try {
             return customerService.searchPage(condition,enterpriseId);
         } catch (Exception e) {

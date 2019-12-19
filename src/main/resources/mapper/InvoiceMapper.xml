@@ -27,5 +27,6 @@
     <result column="review_time" jdbcType="TIMESTAMP" property="reviewTime" />
     <result column="notes" jdbcType="VARCHAR" property="notes" />
     <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+    <result column="mailing_address_id" jdbcType="VARCHAR" property="mailingAddressId" />
   </resultMap>
 </mapper>

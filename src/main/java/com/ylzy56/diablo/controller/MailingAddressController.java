@@ -1,11 +1,10 @@
 package com.ylzy56.diablo.controller;
 
-import com.ylzy56.diablo.domain.Address;
-import com.ylzy56.diablo.domain.Car;
+import com.ylzy56.diablo.domain.MailingAddress;
 import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
-import com.ylzy56.diablo.service.CarService;
+import com.ylzy56.diablo.service.MailingAddressService;
 import com.ylzy56.diablo.service.ImportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,47 +24,27 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/car")
-@Api(value = "/car",description = "车辆接口")
-public class CarController {
+@RequestMapping("/mailingAddress")
+@Api(value = "/mailingAddress",description = "邮寄地址接口")
+public class MailingAddressController {
 
     @Autowired
     private ImportService importService;
 
 
     @Autowired
-    private CarService carService;
+    private MailingAddressService mailingAddressService;
 
 
     /**
-     * 分页条件查询车辆
+     * 分页条件查询邮寄地址
      * @return
      */
     @GetMapping("/searchPage")
-    @ApiOperation(value = "分页条件查询车辆")
+    @ApiOperation(value = "分页条件查询邮寄地址")
     public PageResult searchPage(Condition condition,String enterpriseId){
         try {
-            return carService.searchPage(condition,enterpriseId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * 根据车辆类型查询车辆数量
-     * @return
-     */
-    @GetMapping("/findByProperties")
-    @ApiOperation(value = "根据车辆类型查询车辆数量")
-    public Map findByProperties(String enterpriseId){
-        try {
-            Map map = new HashMap();
-            Integer privateNum = carService.findByProperties("自有车", enterpriseId);
-            Integer transferNum = carService.findByProperties("外调车", enterpriseId);
-            map.put("privateNum",privateNum);
-            map.put("transferNum",transferNum);
-            return map;
+            return mailingAddressService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -73,16 +52,17 @@ public class CarController {
     }
 
 
+
     /**
-     * 查询指定车辆
+     * 查询指定邮寄地址
      * @param id
      * @return
      */
     @GetMapping("/findById")
-    @ApiOperation(value = "查询指定车辆")
-    public Car findById(String id) {
+    @ApiOperation(value = "查询指定邮寄地址")
+    public MailingAddress findById(String id) {
         try {
-            return carService.findById(id);
+            return mailingAddressService.findById(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -90,56 +70,56 @@ public class CarController {
     }
 
     /**
-     * 添加车辆
-     * @param car
+     * 添加邮寄地址
+     * @param mailingAddress
      * @return
      */
     @PostMapping
-    @ApiOperation(value = "添加车辆")
-    public Result save(@RequestBody Car car,String username,String enterpriseId){
+    @ApiOperation(value = "添加邮寄地址")
+    public Result save(@RequestBody MailingAddress mailingAddress,String username,String enterpriseId){
         try {
-            car.setCreator(username);
-            car.setLastModifier(enterpriseId);
-            carService.save(car);
-            return new Result(true,"添加车辆成功");
+            mailingAddress.setCreator(username);
+            mailingAddress.setEnterpriseId(enterpriseId);
+            mailingAddressService.save(mailingAddress);
+            return new Result(true,"添加邮寄地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"添加车辆失败");
+            return new Result(false,"添加邮寄地址失败");
         }
     }
 
     /**
-     * 删除车辆
+     * 删除邮寄地址
      * @param id
      * @return
      */
     @DeleteMapping
-    @ApiOperation(value = "删除车辆")
+    @ApiOperation(value = "删除邮寄地址")
     public Result delete(String id){
         try {
-            carService.delete(id);
-            return new Result(true,"删除车辆成功");
+            mailingAddressService.delete(id);
+            return new Result(true,"删除邮寄地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"删除车辆失败");
+            return new Result(false,"删除邮寄地址失败");
         }
     }
 
     /**
-     * 更新车辆
-     * @param car
+     * 更新邮寄地址
+     * @param mailingAddress
      * @return
      */
     @PutMapping
-    @ApiOperation(value = "更新车辆")
-    public Result update(@RequestBody Car car,String username){
+    @ApiOperation(value = "更新邮寄地址")
+    public Result update(@RequestBody MailingAddress mailingAddress,String username){
         try {
-            car.setLastModifier(username);
-            carService.update(car);
-            return new Result(true,"更新车辆成功");
+            mailingAddress.setLastModifier(username);
+            mailingAddressService.update(mailingAddress);
+            return new Result(true,"更新邮寄地址成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"更新车辆失败");
+            return new Result(false,"更新邮寄地址失败");
         }
     }
 
@@ -150,7 +130,7 @@ public class CarController {
      * @return
      * @throws IOException
      */
-    @ApiOperation(value = "导入车辆")
+    @ApiOperation(value = "导入邮寄地址")
     @ResponseBody
     @PostMapping(value="/file")
     public ResponseEntity analyzeXml(HttpServletRequest request) throws IOException {
@@ -174,7 +154,7 @@ public class CarController {
         if (ObjectUtils.isEmpty(list)){
 //            throw new BadRequestException("文件不能为空");
         }
-        carService.lead(list);
+        mailingAddressService.lead(list);
 
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -1,6 +1,7 @@
 package com.ylzy56.diablo.controller;
 
 import com.ylzy56.diablo.domain.Invoice;
+import com.ylzy56.diablo.domain.entity.Condition;
 import com.ylzy56.diablo.domain.entity.PageResult;
 import com.ylzy56.diablo.domain.entity.Result;
 import com.ylzy56.diablo.service.InvoiceService;
@@ -23,58 +24,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/invoice")
-@Api(value = "invoice")
+@Api(value = "invoice",description = "发票接口")
 public class InvoiceController {
 
     @Autowired
     private InvoiceService invoiceService;
 
     /**
-     * 查询所有发票
-     * @return
-     */
-    @GetMapping("/findAll")
-    @ApiOperation(value = "查询所有发票")
-    public List<Invoice> findAll(){
-        try {
-            return invoiceService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    /**
-     * 分页查询发票
+     * 分页条件查询发票
      * @return
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询发票")
-    public PageResult searchPage(String keyword,int pageNum, int pageSize){
+    public PageResult searchPage(Condition condition,String enterpriseId){
         try {
-            return invoiceService.searchPage(keyword,pageNum,pageSize);
+            return invoiceService.searchPage(condition,enterpriseId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
-    /**
-     * 根据条件查询运单
-     * @return
-     */
-    @GetMapping("/searchNoPage")
-    @ApiOperation(value = "根据条件查询运单")
-    public PageResult searchNoPage(String keyworde){
-        try {
-            return invoiceService.searchNoPage(keyworde);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     /**
      * 查询指定
@@ -83,7 +52,7 @@ public class InvoiceController {
      */
     @GetMapping("/findById")
     @ApiOperation(value = "查询指定发票")
-    public Invoice findById(int id){
+    public Invoice findById(String id){
         try {
             return invoiceService.findById(id);
         } catch (Exception e) {
@@ -116,7 +85,7 @@ public class InvoiceController {
      */
     @GetMapping("/delete")
     @ApiOperation(value = "删除发票")
-    public Result delete(int id){
+    public Result delete(String id){
         try {
             invoiceService.delete(id);
             return new Result(true,"删除发票成功");

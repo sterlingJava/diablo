@@ -118,7 +118,7 @@ public class EnterpriseController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询企业列表")
-    public PageResult searchPage(@RequestBody Condition condition) {
+    public PageResult searchPage( Condition condition) {
         try {
             return enterpriseService.searchPage(condition);
         } catch (Exception e) {

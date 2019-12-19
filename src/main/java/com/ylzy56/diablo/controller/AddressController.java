@@ -40,7 +40,7 @@ public class AddressController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页查询地址")
-    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
+    public PageResult searchPage( Condition condition,String enterpriseId){
         try {
             return addressService.searchPage(condition,enterpriseId);
         } catch (Exception e) {

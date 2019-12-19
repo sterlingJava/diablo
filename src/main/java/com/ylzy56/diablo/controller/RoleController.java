@@ -94,7 +94,7 @@ public class RoleController {
      */
     @GetMapping("/searchPage")
     @ApiOperation(value = "分页条件查询角色列表")
-    public PageResult searchPage(@RequestBody Condition condition,String enterpriseId){
+    public PageResult searchPage( Condition condition,String enterpriseId){
         try {
             return roleService.searchPage(condition,enterpriseId);
         } catch (Exception e) {

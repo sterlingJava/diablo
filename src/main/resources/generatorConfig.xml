@@ -39,9 +39,6 @@
         <table tableName="invoice">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="invoice_title">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
         <!--<table tableName="role">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>

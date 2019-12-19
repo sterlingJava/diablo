@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ylzy56.diablo.dao.InvoiceTitleMapper;
 import com.ylzy56.diablo.domain.Address;
+import com.ylzy56.diablo.domain.Car;
 import com.ylzy56.diablo.domain.Invoice;
 import com.ylzy56.diablo.domain.InvoiceTitle;
 import com.ylzy56.diablo.domain.entity.PageResult;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,59 +24,28 @@ public class InvoiceTitleServiceImpl implements InvoiceTitleService {
     @Autowired(required = false)
     private InvoiceTitleMapper invoiceTitleMapper;
 
-
     @Override
-    public List<InvoiceTitle> findAll() {
-        return invoiceTitleMapper.selectAll();
-    }
-
-    @Override
-    public InvoiceTitle findById(int id) {
-        return invoiceTitleMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public int save(InvoiceTitle invoiceTitle) {
-        return invoiceTitleMapper.insert(invoiceTitle);
-    }
-
-    @Override
-    public int delete(int id) {
-        InvoiceTitle invoiceTitle = findById(id);
-        if (ObjectUtils.isEmpty(invoiceTitle)){
-            throw new RuntimeException("不存在这条数据");
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int update(InvoiceTitle invoiceTitle) {
-        return invoiceTitleMapper.updateByPrimaryKey(invoiceTitle);
-    }
-
-
-
-    @Override
-    public PageResult searchPage(String keyword, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public void save(InvoiceTitle invoiceTitle) {
         Example example = new Example(InvoiceTitle.class);
         Example.Criteria criteria = example.createCriteria();
-//        if (keyword != null && keyword.length() > 0) {
-//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
-//        }
-        Page<InvoiceTitle> page = (Page<InvoiceTitle>) invoiceTitleMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        criteria.andEqualTo("status", "0");
+        criteria.andEqualTo("isDel", "0");
+        criteria.andEqualTo("enterpriseId", invoiceTitle.getEnterpriseId());
+        invoiceTitleMapper.updateByExampleSelective(new InvoiceTitle(){{setStatus("1");}},example);
+        invoiceTitle.setStatus("0");
+        invoiceTitle.setIsDel("0");
+        invoiceTitle.setCreateTime(new Date());
+        invoiceTitleMapper.insertSelective(invoiceTitle);
     }
 
     @Override
-    public PageResult searchNoPage(String keyword) {
+    public InvoiceTitle findBeUse(String status,String enterpriseId) {
+        //1.根据id查询地址信息
         Example example = new Example(InvoiceTitle.class);
         Example.Criteria criteria = example.createCriteria();
-//        if (keyword != null && keyword.length() > 0) {
-//            criteria.orLike("username", "%" + keyword + "%").orLike("mobile", "%" + keyword + "%");
-//        }
-        Page<InvoiceTitle> page = (Page<InvoiceTitle>) invoiceTitleMapper.selectByExample(example);
-        return new PageResult(page.getTotal(), page.getResult());
+        criteria.andEqualTo("status", status);
+        criteria.andEqualTo("isDel", "0");
+        criteria.andEqualTo("enterpriseId", enterpriseId);
+        return invoiceTitleMapper.selectOneByExample(example);
     }
 }
