@@ -286,7 +286,7 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId",userId);
-        criteria.andEqualTo("status","0");
+        //criteria.andEqualTo("status","0");
         criteria.andEqualTo("isDel","0");
         UserInfo userInfo = userDao.selectOneByExample(example);
         if (ObjectUtils.isEmpty(userInfo)){

@@ -19,7 +19,6 @@ import java.util.Enumeration;
 import java.util.Set;
 
 public class SecurityInterceptor implements HandlerInterceptor {
-
     @Autowired
     private UserService userService;
 

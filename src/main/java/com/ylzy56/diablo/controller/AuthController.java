@@ -1,5 +1,7 @@
 package com.ylzy56.diablo.controller;
 
+import com.ylzy56.diablo.common.utils.RandomStringUtils;
+import com.ylzy56.diablo.common.utils.StringTimeUtils;
 import com.ylzy56.diablo.domain.Enterprise;
 import com.ylzy56.diablo.domain.UserInfo;
 import com.ylzy56.diablo.domain.entity.Condition;
@@ -12,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.util.StringUtil;
 
@@ -36,19 +39,17 @@ public class AuthController {
     private EnterpriseService enterpriseService;
 
     @ApiOperation(value = "登录")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String createAuthenticationToken(
-            String username,String password
-    ) throws AuthenticationException{
-        //  @RequestBody JwtAuthenticationRequest authenticationRequest
-        final String token = authService.login(username,password);
-
-        // Return the token
-        //return ResponseEntity.ok(new JwtAuthenticationResponse(token));
-        return token;
+    @PostMapping("/login")
+    public Result createAuthenticationToken(@RequestBody UserInfo userInfo) throws AuthenticationException{
+        try {
+            return authService.login(userInfo.getUsername(),userInfo.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"登录异常!");
+        }
     }
     @ApiOperation(value = "刷新token")
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
+    @GetMapping("/refresh")
     public String refreshAndGetAuthenticationToken(
             HttpServletRequest request) throws AuthenticationException{
         String token = request.getHeader(tokenHeader);
@@ -63,18 +64,29 @@ public class AuthController {
     }
 
     @ApiOperation(value = "注册(参数手机号和密码)")
-    @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
-    public Result register(@RequestBody UserInfo userInfo) throws AuthenticationException{
-        try {
-             authService.register(userInfo);
-             return new Result(true,"注册成功!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false,"注册失败!");
-        }
+    @PostMapping("${jwt.route.authentication.register}")
+    public Result register(HttpServletRequest request,@RequestBody UserInfo userInfo, String code) throws AuthenticationException{
+
+            String smsCode = (String) request.getSession().getAttribute(userInfo.getUsername());
+            if (!StringUtil.isEmpty(smsCode)) {
+                if (smsCode.equals(code)) {
+                    try {
+                        authService.register(userInfo);
+                        return new Result(true,"注册成功!");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return new Result(true,"注册失败!");
+                    }
+                } else {
+                    return new Result(false, "验证码错误!");
+                }
+            }else {
+                return new Result(false, "验证码无效,请重新获取!");
+            }
     }
+
     @ApiOperation(value = "找回密码(参数新密码和手机号或者用户id)")
-    @PutMapping(value = "/auth/updatePassword")
+    @PutMapping(value = "/updatePassword")
     public Result updatePassword(@RequestBody UserInfo userInfo) throws AuthenticationException{
         try {
             userService.update(userInfo);
@@ -85,8 +97,8 @@ public class AuthController {
         }
     }
     @ApiOperation(value = "注册企业信息")
-    @RequestMapping(value = "/auth/enterprise", method = RequestMethod.POST)
-    public Result register(Enterprise enterprise) throws AuthenticationException{
+    @RequestMapping(value = "/enterprise", method = RequestMethod.POST)
+    public Result register(@RequestBody Enterprise enterprise) throws AuthenticationException{
         try {
             enterpriseService.save(enterprise);
             return new Result(true,"注册成功!");
@@ -96,17 +108,17 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/auth/sendSms")
+    @GetMapping("/sendSms")
     @ApiOperation(value = "发送短信验证码")
     public Result sendSms(HttpServletRequest request, String moblie) {
         try {
             //查询手机号是否注册
             Condition condition = new Condition();
             condition.setKeyword(moblie);
-            List<UserInfo> userInfoList = userService.searchUserInfo(condition);
-            if (userInfoList.size() == 0) {
+            UserInfo userInfo = userService.findByMobile(moblie);
+            if (ObjectUtils.isEmpty(userInfo)) {
                 //生成6位验证码
-                String smscode = (long) (Math.random() * 1000000) + "";
+                String smscode = RandomStringUtils.randomNumeric(6);
                 System.out.println(smscode);
                 //发送短信
 
@@ -117,26 +129,11 @@ public class AuthController {
                 session.setAttribute(moblie, smscode);
                 return new Result(true,"已发送验证码!");
             }else {
-                return new Result(true,"手机号存在!");
+                return new Result(false,"手机号存在!");
             }
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false,"发送验证码失败!");
-        }
-    }
-
-    @GetMapping("/auth/checkSms")
-    @ApiOperation(value = "校验短信验证码")
-    public Result checkSms(HttpServletRequest request, String mobile, String code) {
-        String smsCode = (String) request.getSession().getAttribute(mobile);
-        if (!StringUtil.isEmpty(smsCode)) {
-            if (smsCode.equals(code)) {
-                return new Result(true, "验证码正确!");
-            } else {
-                return new Result(false, "验证码错误!");
-            }
-        }else {
-            return new Result(false, "验证码无效,请重新获取!");
         }
     }
 }

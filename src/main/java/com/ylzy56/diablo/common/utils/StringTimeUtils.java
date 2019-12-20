@@ -22,4 +22,24 @@ public class StringTimeUtils {
         return sf.format(date);
     }
 
+    /**
+     * 方式二： 设定时间戳，倒计时
+     */
+    public static long getTime(long time) {
+        while (time > 0) {
+            time--;
+            //long hh = time / 60 / 60 % 60;
+            //long mm = time / 60 % 60;
+            long ss = time % 60;
+            System.out.println(/*"还剩" + hh + "小时" + mm + "分钟" + */ss + "秒");
+            try {
+                Thread.sleep(1000);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return time;
+    }
+
 }
